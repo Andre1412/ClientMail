@@ -3,6 +3,7 @@ package com.example.clientprova;
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -29,7 +30,7 @@ public class Server extends Thread {
     public void run() {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
-            serverLog.setLastMessage("Server pronto, in ascolto...");
+            Platform.runLater(()->serverLog.setLastMessage("Server pronto, in ascolto..."));
             while (true) {
                 Socket socket = serverSocket.accept();
                 Runnable r = new ClientThreadHandler(socket, serverLog);
