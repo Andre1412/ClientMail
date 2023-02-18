@@ -1,0 +1,1 @@
+{"ID":"16022023140206_0dcd0856-4225-4304-9081-d7dc22119a7c","dataSpedizione":"16-02-2023","sender":"studente@unito.it","receivers":["studente@unito.it"],"text":"ff","subject":"ff","toRead":false}

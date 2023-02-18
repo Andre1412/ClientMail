@@ -1,0 +1,1 @@
+{"ID":"12022023165623_a53c88a6-8ffd-4e34-963e-1ae2e6439563","dataSpedizione":"12-02-2023","sender":"studente@unito.it","receivers":["prof@gmail.com"],"text":"cv","subject":"Cf"}

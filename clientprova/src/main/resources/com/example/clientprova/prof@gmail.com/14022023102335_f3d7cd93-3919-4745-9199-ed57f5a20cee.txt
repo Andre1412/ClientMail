@@ -1,0 +1,1 @@
+{"ID":"14022023102335_f3d7cd93-3919-4745-9199-ed57f5a20cee","dataSpedizione":"14-02-2023","sender":"prof@gmail.com","receivers":["studente@unito.it"],"text":"sdsd","subject":"Saluti la prima voltra"}

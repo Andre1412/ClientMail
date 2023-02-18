@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<!-- xmlns="http://javafx.com/javafx/19"-->
+<BorderPane fx:id="root" prefHeight="200.0" prefWidth="300.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.clientprova.MainController">
+   <center>
+      <VBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER">
+               <children>
+                  <Label fx:id="lblAccount" alignment="CENTER" prefHeight="17.0" text="Account Email" />
+                  <TextField fx:id="txtAccount" alignment="CENTER" />
+               </children>
+            </HBox>
+            <Button fx:id="btnLogin" mnemonicParsing="false" onAction="#loadMainController" defaultButton="true" style="-fx-background-color: white;" text="Accedi" />
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

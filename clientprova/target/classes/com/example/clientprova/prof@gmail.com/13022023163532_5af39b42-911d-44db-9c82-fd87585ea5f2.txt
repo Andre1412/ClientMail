@@ -1,0 +1,1 @@
+{"ID":"13022023163532_5af39b42-911d-44db-9c82-fd87585ea5f2","dataSpedizione":"13-02-2023","sender":"tutor@unito.it","receivers":["prof@gmail.com"],"text":"v","subject":"Prova list"}

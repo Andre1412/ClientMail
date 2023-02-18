@@ -1,0 +1,1 @@
+{"ID":"13022023175208_0ff1b963-4a18-4efd-8559-e45442d0f56d","dataSpedizione":"13-02-2023","sender":"studente@unito.it","receivers":["prof@gmail.com"],"text":"c","subject":"Ciao per la prima volta"}
