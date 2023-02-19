@@ -35,6 +35,7 @@ public class ClientController {
 
     private BooleanProperty serverStatus;
 
+    boolean firstConn=true;
 
     Socket socket;
     ObjectOutputStream outputStream = null;
@@ -48,15 +49,18 @@ public class ClientController {
     }
 
     public void communicate(String host, int port){
-        int attempts = 1;
 
-        boolean success = false;
         //while(!success && attempts <= 5) {
 
-            System.out.println("[Client " + client.getEmailAddress() +"] Attempt nr. " + attempts);
-            attempts += 1;
-            tryCommunication(host,port,true);
-            scheduler.scheduleAtFixedRate(() -> tryCommunication(host, port,false), 5, 3, TimeUnit.SECONDS);
+            System.out.println("[Client " + client.getEmailAddress() +"] Attempt nr. ");
+
+            scheduler.scheduleAtFixedRate(() ->{
+                System.out.println("------FIRST: "+ firstConn);
+
+                if(firstConn) {
+                    firstConn = !tryCommunication(host, port, firstConn);
+                }else tryCommunication(host, port, firstConn);
+            },0, 5, TimeUnit.SECONDS);
             /*if(success) {
                 //tryConnect(host, port);
                 continue;
@@ -76,7 +80,6 @@ public class ClientController {
             outputStream.writeUTF(client.getEmailAddress());
             System.out.println("First line" + firstTime);
             outputStream.writeUTF(firstTime?"null":client.getLastEmailFormattedDate());
-            System.out.println("Write First line");
             outputStream.flush();
             System.out.println("----- Attendo risposta");
             //Se è la prima connessione aspetto anche mail inviate

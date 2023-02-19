@@ -120,9 +120,7 @@ public class MainController {
     }
     public void writeEmail(String action, Email mail){
         showWriteEmail();
-        if(!model.isWriting()) {
-            writeEmail.setMainController(this, model, clientController, action, mail);
-        }
+        writeEmail.setMainController(this, model, clientController, action, mail);
         if(view!="write")view="write";
     }
 

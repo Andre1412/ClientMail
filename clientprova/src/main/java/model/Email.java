@@ -55,7 +55,7 @@ public class Email implements Serializable, Comparable<Email>{
         return toRead;
     }
 
-    public void setToRead(boolean toRead) {
+    public void setToRead(boolean toRead){
         this.toRead = toRead;
     }
 
@@ -105,7 +105,7 @@ public class Email implements Serializable, Comparable<Email>{
     @Override
     public String toString() {
         return this.sender+ "        "+
-                String.join("  -  ", List.of(this.subject, this.text.length()>60?this.text.replace("\n","")
+                String.join("  -  ", List.of(this.subject,  this.text.length()>60?this.text.replace("\n","")
                         .substring(0, 30) + "...": this.text.replace("\n","")));
     }
 }

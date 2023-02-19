@@ -83,3 +83,12 @@ TextFlow Text{
     -fx-fill: white;
     -fx-font-size: 18px;
 }
+#listCell{
+    -fx-background-color: transparent;
+}
+#listCell Label{
+    -fx-text-fill: #8082B0;
+}
+#listCell:selected{
+    -fx-background-color: purple;
+}

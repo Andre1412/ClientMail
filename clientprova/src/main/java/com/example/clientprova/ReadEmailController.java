@@ -89,7 +89,7 @@ public class ReadEmailController {
             System.out.println(listEmail.itemsProperty().toString());
         });
 
-        //listEmail.itemsProperty().bind(model.getInboxContent());
+        listEmail.setCellFactory((listView)->new EmailCell());
         listEmail.setOnMouseClicked(this::showSelectedEmail);
         username.textProperty().bind(model.emailAddressProperty());
         PaneListEmail.getItems().remove(borderTextEmail);
