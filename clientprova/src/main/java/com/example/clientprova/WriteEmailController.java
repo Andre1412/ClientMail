@@ -120,9 +120,6 @@ public class WriteEmailController {
             a.show();
             checkBodyEmail = true;
         }
-        /*TODO: la bozza di email viene salvata non si preme scrivi dopo aver fatto reply ed essere passati da scrittura a lettura email
-           \vedere cosa si preferisce fare
-        * */
     }
     private ArrayList<String> getReceivers(){
         ArrayList<String> receivers = new ArrayList<>();

@@ -70,7 +70,6 @@ public class ReadEmailController {
         this.clientController = clientController;
 
         selectedEmail = null;
-        //TODO: risolvere binding
 
         model.getCurrentEmails().addListener((ListChangeListener<Email>)(value)->{
             System.out.println("Listener----------------" + value.getList());
