@@ -1,0 +1,1 @@
+{"ID":"19022023155901_cb9dc7ee-d108-4319-8102-aa3085e7f9c4","dataSpedizione":"19-02-2023","sender":"studente@unito.it","receivers":["prof@gmail.com"],"text":"ok","subject":"Fabio sei strano","toRead":false}
