@@ -1,0 +1,1 @@
+{"ID":"19022023155758_6720972c-47c4-4f63-90ed-c7cb2137a852","dataSpedizione":"19-02-2023","sender":"prof@gmail.com","receivers":["studente@unito.it"],"text":"Forza inter","subject":"Re: Ciao per la prima volta","toRead":true}
