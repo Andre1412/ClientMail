@@ -28,7 +28,7 @@
          <children>
             <Label fx:id="dateLabel" alignment="CENTER_RIGHT" layoutX="18.0" layoutY="29.0" prefHeight="25.0" prefWidth="125.0">
                <font>
-                  <Font size="10.0" />
+                  <Font name="Alexandria Regular" size="10.0" />
                </font>
             </Label>
          </children>

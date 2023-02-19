@@ -60,7 +60,7 @@ public class WriteEmailController {
         this.clientController = clientController;
         lblsenderAccount.textProperty().bind(model.emailAddressProperty());
         Date date = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
         String strDate = dateFormat.format(date);
         StringProperty data = new SimpleStringProperty(strDate);
         lblData.textProperty().bind(data);

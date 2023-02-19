@@ -38,34 +38,57 @@ public class ButtonTabController {
             System.out.println("Listener");
         }));
         btnIncoming.setStyle("-fx-background-color: #57598C");
+        this.model.getViewProperty().addListener(((observableValue, oldV, newV) ->{
+            switch (newV){
+                case "incoming":
+                    selectIncomingEmail();
+                break;
+                case "sent":
+                    selectSentEmail();
+                break;
+                case "write":
+                    selectWriteEmail();
+                break;
 
+            }
+        } ));
     }
 
 
     @FXML
-    public void showIncomingEmail(ActionEvent actionEvent) {
+    public void showIncomingEmail(ActionEvent event){
+        mainController.selectEmail("incoming");
+    }
+
+    @FXML
+    public void showSentEmail(ActionEvent event){
+        mainController.selectEmail("sent");
+    }
+
+    @FXML
+    public void showWriteEmail(ActionEvent event){
+        mainController.selectEmail("write");
+    }
+
+    public void selectIncomingEmail() {
         btnIncoming.setStyle("-fx-background-color: #57598C");
         btnSent.setStyle("-fx-background-color: none");
         btnWrite.setStyle("-fx-background-color: none");
-        mainController.selectEmail("incoming");
 
     }
 
-    @FXML
-    public void showSentEmail(ActionEvent actionEvent) {
+
+    public void selectSentEmail() {
         btnSent.setStyle("-fx-background-color: #57598C");
         btnIncoming.setStyle("-fx-background-color: none");
         btnWrite.setStyle("-fx-background-color: none");
         mainController.selectEmail("sent");
     }
-    @FXML
-    public void showWriteEmail(ActionEvent actionEvent) {
+
+    public void selectWriteEmail() {
         btnWrite.setStyle("-fx-background-color: #57598C");
         btnSent.setStyle("-fx-background-color: none");
         btnIncoming.setStyle("-fx-background-color: none");
-        if(!model.isWriting()){
-            model.setWriting(true);
-        }
         mainController.writeEmail("",null);
     }
 }

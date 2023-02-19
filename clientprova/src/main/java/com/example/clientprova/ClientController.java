@@ -150,7 +150,9 @@ public class ClientController {
             System.out.println("Ricevuto - "+ feedback);
             ServerResponse res=new ServerResponse(feedback.contains("Error")?"ERROR": "OK", feedback);
             if(res.getStatus()=="OK"){
-                client.getSentContent().add(send);
+                ArrayList<Email> sendArray=new ArrayList<>();
+                sendArray.add(send);
+                client.setSentContent(sendArray);
             }
             response.run(res);
 

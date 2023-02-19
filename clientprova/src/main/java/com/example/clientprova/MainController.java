@@ -115,6 +115,7 @@ public class MainController {
     public void showWriteEmail(){
         if(!root.getCenter().equals(writeEmailNode)) {
             view="write";
+            model.setView("write");
             root.setCenter(writeEmailNode);
         }
     }

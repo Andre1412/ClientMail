@@ -7,11 +7,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import model.Client;
 import model.Email;
 
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 public class EmailCell extends ListCell<Email> {
     @FXML
@@ -39,8 +45,9 @@ public class EmailCell extends ListCell<Email> {
                     return;
                 }
                 System.out.println("Da leggere mail "+ newValue + " " + newValue.toReadProperty());
-                mailLabel.setText(newValue.toString());
-
+                mailAccount.setText(model.getView()=="incoming"? newValue.getSender(): newValue.getReceivers().toString().length()>20? newValue.getReceivers().toString().substring(0,20)+"...": newValue.getReceivers().toString());
+                mailText.setText(String.join("  -  ", List.of(newValue.getSubject(),  newValue.getText().length()>40? newValue.getText().replace("\n","")
+                        .substring(0, 40) + "...": newValue.getText().replace("\n",""))));
                 Calendar today = Calendar.getInstance();
 
                 Calendar date = Calendar.getInstance();
@@ -56,8 +63,7 @@ public class EmailCell extends ListCell<Email> {
                     } else {
                         df = new SimpleDateFormat("dd MMM yy, HH:mm");
                     }*/
-                    dateLabel.setText(newValue.getDataSpedizione());
-                    readMark.setFill(newValue.toReadProperty() ? Color.BLUE : Color.TRANSPARENT);
+                    //dateLabel.setText(newValue.getDataSpedizione());
                     setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
                 });
 

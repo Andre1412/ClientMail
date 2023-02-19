@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import model.Email;
 import model.ServerLog;
 
@@ -21,10 +22,16 @@ public class Server extends Thread {
     Socket socket = null;
     ServerLog serverLog;
     int port;
+    Stage stage;
 
-     public Server(int port, ServerLog serverLog){
+     public Server(int port, ServerLog serverLog,Stage stage){
+         this.stage=stage;
          this.port=port;
          this.serverLog=serverLog;
+         this.stage.addEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST, event -> {
+             interrupt();
+             System.exit(0);
+         });
      }
 
     public void run() {
@@ -33,7 +40,7 @@ public class Server extends Thread {
             Platform.runLater(()->serverLog.setLastMessage("Server pronto, in ascolto..."));
             while (true) {
                 Socket socket = serverSocket.accept();
-                Runnable r = new ClientThreadHandler(socket, serverLog);
+                Runnable r = new ClientThreadHandler(socket, serverLog, stage);
                 new Thread(r).start();
             }
 

@@ -1,6 +1,8 @@
 package com.example.clientprova;
 
 import com.google.gson.Gson;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import model.Client;
 import model.Email;
 import model.ServerLog;
@@ -19,11 +21,11 @@ public class ClientThreadHandler implements Runnable {
     ObjectInputStream inStream = null;
     ObjectOutputStream outStream = null;
     ServerLog serverLog;
-
+    Stage stage;
 
     private boolean running = true;
 
-    public ClientThreadHandler(Socket in, ServerLog serverLog) {
+    public ClientThreadHandler(Socket in, ServerLog serverLog, Stage stage) {
         this.incoming = in;
         this.serverLog = serverLog;
         this.stage = stage;
