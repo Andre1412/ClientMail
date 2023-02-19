@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import model.ServerLog;
 
 import java.io.IOException;
@@ -23,10 +24,11 @@ public class ServerMain extends Application {
         Scene scene = new Scene(root.load(), 700, 300);
         this.serverController = root.getController();
         serverController.setMainController(serverLog);
-        Server server = new Server(8085,serverLog);
+        Server server = new Server(8085,serverLog,stage);
         server.start();
         stage.setScene(scene);
         stage.setTitle("Console server");
         stage.show();
+
     }
 }

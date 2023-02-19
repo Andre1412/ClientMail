@@ -18,11 +18,17 @@ public class EmailCell extends ListCell<Email> {
     public Circle readMark;
     @FXML
     public Label dateLabel;
-    @FXML
-    public Label mailLabel;
 
-    public EmailCell() {
+    @FXML
+    public Label mailAccount;
+
+    @FXML
+    public Label mailText;
+
+    Client model;
+    public EmailCell(Client model) {
         try {
+            this.model = model;
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource("emailCell.fxml"));
             loader.setController(this);
             loader.setRoot(this);
@@ -40,7 +46,10 @@ public class EmailCell extends ListCell<Email> {
                 Calendar date = Calendar.getInstance();
 
 
-                DateFormat df;
+                dateLabel.setText(newValue.getDataSpedizione());
+
+
+                //DateFormat df;
                  /*   if (date.get(Calendar.YEAR) == today.get(Calendar.YEAR)
                             && date.get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR)) {
                         df = new SimpleDateFormat("HH:mm");

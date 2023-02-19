@@ -26,6 +26,11 @@ public class ClientThreadHandler implements Runnable {
     public ClientThreadHandler(Socket in, ServerLog serverLog) {
         this.incoming = in;
         this.serverLog = serverLog;
+        this.stage = stage;
+        this.stage.addEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST, event -> {
+            stop();
+            System.exit(0);
+        });
     }
 
     @Override

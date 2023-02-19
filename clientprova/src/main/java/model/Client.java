@@ -63,6 +63,7 @@ public class Client {
         this.view.set(view);
     }
 
+
     public String getView() {
         return view.get();
     }
@@ -97,7 +98,7 @@ public class Client {
         return newEmails;
     }
 
-    public SimpleStringProperty viewProperty() {
+    public SimpleStringProperty getViewProperty() {
         return view;
     }
 
@@ -123,12 +124,16 @@ public class Client {
     }
     //set sent to the list of emails passed as parameter
     public void setSentContent(ArrayList<Email> sent) {
-        Collections.sort(sent, Collections.reverseOrder());
         if(sent.size()>0) {
+            Collections.sort(sent, Collections.reverseOrder());
+            for (Email e : sent) {
+                e.setToReadProperty(false);
+            }
             this.sentContent.addAll(0, sent);
             if(view.getValue().equals("sent"))
                 setCurrentEmails();
         }
+
     }
 
     public String getEmailAddress() {
