@@ -1,31 +1,18 @@
 package com.example.clientprova;
 
 import javafx.application.Platform;
-import javafx.beans.Observable;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableBooleanValue;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import model.Client;
 import model.Email;
-
-import java.util.ArrayList;
 
 public class ReadEmailController {
     @FXML
@@ -113,8 +100,9 @@ public class ReadEmailController {
                 PaneListEmail.getItems().add(borderTextEmail);
             }
             Email email = listEmail.getSelectionModel().getSelectedItem();
-            if(email.isToRead()){
-                email.setToRead(false);
+            if(email.toReadProperty()){
+                email.setToReadProperty(false);
+                model.setCurrentEmails();
                 clientController.setToRead(email);
             }
             model.setNewEmails();

@@ -1,14 +1,11 @@
 package model;
 
-import javafx.beans.InvalidationListener;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 import java.io.*;
 import java.net.Socket;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -85,8 +82,8 @@ public class Client {
     public void setNewEmails() {
         int newEmails=0;
         for(Email e: inboxContent){
-            System.out.println(e+ " ----- " + e.isToRead());
-            if(e.isToRead()){
+            System.out.println(e+ " ----- " + e.toReadProperty());
+            if(e.toReadProperty()){
                 newEmails++;
             }
         }
@@ -152,7 +149,8 @@ public class Client {
 
     public void setCurrentEmails(){
         System.out.println("Set current");
-        currentEmails.setAll(view.getValue().equals("incoming")? inboxContent:sentContent);
+        currentEmails.clear();
+        currentEmails.addAll(view.getValue().equals("incoming")? inboxContent:sentContent);
     }
     public ObservableList<Email> getCurrentEmails(){
         return currentEmails;

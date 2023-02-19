@@ -1,8 +1,9 @@
 package model;
 
+import javafx.beans.property.SimpleBooleanProperty;
+
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Email implements Serializable, Comparable<Email>{
@@ -51,11 +52,11 @@ public class Email implements Serializable, Comparable<Email>{
         return ID;
     }
 
-    public boolean isToRead() {
+    public boolean toReadProperty() {
         return toRead;
     }
 
-    public void setToRead(boolean toRead){
+    public void setToReadProperty(boolean toRead){
         this.toRead = toRead;
     }
 

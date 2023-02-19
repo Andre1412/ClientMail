@@ -11,8 +11,6 @@ import model.Email;
 
 import java.io.IOException;
 import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class EmailCell extends ListCell<Email> {
@@ -34,7 +32,7 @@ public class EmailCell extends ListCell<Email> {
                 if (newValue == null) {
                     return;
                 }
-                System.out.println("Da leggere mail "+ newValue + " " + newValue.isToRead());
+                System.out.println("Da leggere mail "+ newValue + " " + newValue.toReadProperty());
                 mailLabel.setText(newValue.toString());
 
                 Calendar today = Calendar.getInstance();
@@ -50,7 +48,7 @@ public class EmailCell extends ListCell<Email> {
                         df = new SimpleDateFormat("dd MMM yy, HH:mm");
                     }*/
                     dateLabel.setText(newValue.getDataSpedizione());
-                    readMark.setFill(newValue.isToRead() ? Color.BLUE : Color.TRANSPARENT);
+                    readMark.setFill(newValue.toReadProperty() ? Color.BLUE : Color.TRANSPARENT);
                     setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
                 });
 
