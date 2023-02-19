@@ -2,38 +2,38 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListCell?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<fx:root type="javafx.scene.control.ListCell"
-         xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root type="javafx.scene.control.ListCell" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <graphic>
 
-<HBox fx:id="listCell" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="57.0" prefWidth="600.0" >
+<HBox fx:id="listCell" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="57.0" prefWidth="840.0">
    <children>
-      <Label fx:id="mailLabel">
-         <font>
-            <Font name="Alexandria Regular" size="16.0" />
-         </font>
-      </Label>
-      <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-      <Pane nodeOrientation="LEFT_TO_RIGHT" prefHeight="57.0">
-         <children>
-            <Label fx:id="dateLabel" layoutX="44.0" layoutY="41.0" >
+            <Pane prefHeight="57.0" prefWidth="1350.0">
+               <children>
+            <Label fx:id="mailAccount" layoutX="15.0" layoutY="16.0" minWidth="0.0" prefHeight="25.0" prefWidth="205.0">
                <font>
-                  <Font size="10.0" />
+                  <Font name="Alexandria Regular" size="16.0" />
                </font>
             </Label>
-            <Circle fx:id="readMark" fill="TRANSPARENT" layoutX="76.0" layoutY="29.0" radius="5.0" stroke="TRANSPARENT" strokeType="INSIDE" />
+                  <Label fx:id="mailText" layoutX="247.0" layoutY="16.0" minWidth="0.0" prefHeight="25.0" prefWidth="410.0" />
+               </children>
+            </Pane>
+      <Region minWidth="0.0" prefHeight="57.0" />
+      <Pane nodeOrientation="LEFT_TO_RIGHT" prefHeight="57.0" prefWidth="835.0">
+         <children>
+            <Label fx:id="dateLabel" alignment="CENTER_RIGHT" layoutX="18.0" layoutY="29.0" prefHeight="25.0" prefWidth="125.0">
+               <font>
+                  <Font name="Alexandria Regular" size="10.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>
-   <opaqueInsets>
-      <Insets />
-   </opaqueInsets>
    <padding>
       <Insets left="10.0" right="10.0" />
    </padding>

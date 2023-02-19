@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="paneWrite" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.clientprova.WriteEmailController">
+<StackPane fx:id="paneWrite" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.clientprova.WriteEmailController">
 
     <BorderPane fx:id="borderTextEmail" minWidth="550.0">
         <top>
@@ -89,7 +89,7 @@
             </VBox>
         </top>
         <center>
-            <TextArea fx:id="txtEmail" editable="true" prefHeight="450.0" prefWidth="550.0" BorderPane.alignment="CENTER">
+            <TextArea fx:id="txtEmail" editable="true" prefHeight="450.0" prefWidth="550.0" wrapText="true" BorderPane.alignment="CENTER">
                 <font>
                     <Font size="15.0" />
                 </font>
