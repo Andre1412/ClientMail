@@ -52,11 +52,8 @@ public class ClientController {
 
         //while(!success && attempts <= 5) {
 
-            System.out.println("[Client " + client.getEmailAddress() +"] Attempt nr. ");
 
             scheduler.scheduleAtFixedRate(() ->{
-                System.out.println("------FIRST: "+ firstConn);
-
                 if(firstConn) {
                     firstConn = !tryCommunication(host, port, firstConn);
                 }else tryCommunication(host, port, firstConn);
@@ -75,24 +72,19 @@ public class ClientController {
     private boolean tryCommunication(String host, int port, boolean firstTime){
         try {
             connectToServer(host, port);
-            System.out.println("Connesso------" + outputStream+ inputStream);
             outputStream.writeUTF("receive");
             outputStream.writeUTF(client.getEmailAddress());
-            System.out.println("First line" + firstTime);
             outputStream.writeUTF(firstTime?"null":client.getLastEmailFormattedDate());
             outputStream.flush();
-            System.out.println("----- Attendo risposta");
             //Se è la prima connessione aspetto anche mail inviate
             if(firstTime) {
                 ArrayList<Email> sentEmails = (ArrayList<Email>) inputStream.readObject();
-                System.out.println();
-                System.out.println("Sent Emails" + sentEmails.toString());
                 Platform.runLater(()->
                         client.setSentContent(sentEmails));
             }
             //Attendo mail in arrivo
             ArrayList<Email> inboxEmails = (ArrayList<Email>)inputStream.readObject();
-            System.out.println("Inbox Emails" + inboxEmails.toString());
+
             Platform.runLater(()->
                 client.setInboxContent(inboxEmails));
 
@@ -128,10 +120,8 @@ public class ClientController {
             //socket.setSoTimeout(2*1000);
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             outputStream.flush();
-            System.out.println("ae = " + client.getEmailAddress().getClass());
             inputStream = new ObjectInputStream(socket.getInputStream());
             this.serverStatus.setValue(true);
-            System.out.println("[Client " + client.getEmailAddress() + "] Connesso");
     }
 
     public interface ResponseFunction {
@@ -147,8 +137,7 @@ public class ClientController {
             outputStream.writeObject(send);
             outputStream.flush();
             String feedback=inputStream.readUTF();
-            System.out.println("Ricevuto - "+ feedback);
-            ServerResponse res=new ServerResponse(feedback.contains("Error")?"ERROR": "OK", feedback);
+            ServerResponse res=new ServerResponse(feedback.contains("ERROR")?"ERROR": "OK", feedback);
             if(res.getStatus()=="OK"){
                 ArrayList<Email> sendArray=new ArrayList<>();
                 sendArray.add(send);
@@ -175,10 +164,9 @@ public class ClientController {
                 this.connectToServer("localhost", 8085);
                 outputStream.writeUTF("read");
                 outputStream.writeUTF(client.getEmailAddress());
-                System.out.println("Email: "+ email);
                 outputStream.writeObject(email);
                 outputStream.flush();
-                if (inputStream.readUTF().contains("Error")) {
+                if (inputStream.readUTF().contains("ERROR")) {
                     System.out.println("Errore nella modifica");
                 } else System.out.println("Modificato con successo!");
             } catch (IOException e) {
@@ -201,8 +189,7 @@ public class ClientController {
                 outputStream.flush();
                 String feedback=inputStream.readUTF();
 
-                System.out.println("Ricevuto - "+ feedback);
-                ServerResponse res=new ServerResponse(feedback.contains("Failed")? "ERROR":"OK", feedback);
+                ServerResponse res=new ServerResponse(feedback.contains("ERROR")? "ERROR":"OK", feedback);
                 response.run(res);
             }catch (IOException e){
                 System.out.println("Errore comunicazione: "+ e.getMessage());

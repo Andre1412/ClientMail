@@ -6,6 +6,6 @@
 
 <ScrollPane stylesheets="@style.css" fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #312f33;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.clientprova.ServerController">
     <content>
-        <TextFlow fx:id="textFlow" lineSpacing="1.5" prefHeight="395.0" prefWidth="595.0" style="-fx-background-color: #312f33;" />
+        <TextFlow fx:id="textFlow" lineSpacing="20" prefHeight="395.0" prefWidth="595.0" style="-fx-background-color: #312f33;" />
     </content>
 </ScrollPane>

@@ -22,6 +22,7 @@ public class ClientThreadHandler implements Runnable {
     ObjectOutputStream outStream = null;
     ServerLog serverLog;
     Stage stage;
+    String clientName;
 
     private boolean running = true;
 
@@ -40,67 +41,72 @@ public class ClientThreadHandler implements Runnable {
         try{
             try {
                 openStreams(incoming);
-                System.out.println("inizia a servire");
                 while(inStream.available()<=0){}
                 String op=inStream.readUTF();
-                System.out.println("OP: "+op);
-                String clientName;
+                this.clientName = inStream.readUTF();
                 switch(op){
                     case "send":
-                        System.out.println("Send");
-                        clientName = inStream.readUTF();
-                        Email email = (Email) inStream.readObject();
-                        System.out.println(email);
-                        ArrayList<String> receivers = email.getReceivers();
-                        File emailSentInClient = new File("clientprova/src/main/resources/com/example/clientprova/" + clientName + "/" + email.getID() + ".txt");
-                        System.out.println(emailSentInClient);
-                        emailSentInClient.createNewFile();
-                        System.out.println("File creato" + emailSentInClient);
-                        FileWriter fileWriter = new FileWriter(emailSentInClient);
-                        fileWriter.write(new Gson().toJson(email));
-                        fileWriter.close();
-                        for (int i = 0; i < receivers.size(); i++) {
-                            File emailSentInReceivers = new File("clientprova/src/main/resources/com/example/clientprova/" + receivers.get(i) + "/" + email.getID() + ".txt");
-                            emailSentInReceivers.createNewFile();
-                            fileWriter = new FileWriter(emailSentInReceivers);
-                            fileWriter.write(new Gson().toJson(email));
-                            fileWriter.close();
+                        try {
+                            Email email = (Email) inStream.readObject();
+                            ArrayList<String> receivers = email.getReceivers();
+                            String errorReceivers="";
+                            for(int i = 0; i<receivers.size() && errorReceivers==""; i++){
+                                if(!new File("clientprova/src/main/resources/com/example/clientprova/"+receivers.get(i)).exists()){
+                                    errorReceivers="ERROR: Utente "+ clientName + " non esiste!";
+                                    outStream.writeUTF(errorReceivers);
+                                    outStream.flush();
+                                    Platform.runLater(() -> serverLog.setLastMessage("ERROR: Impossibile inviare mail " + email.getID() +" dell'utente " + clientName + ", receiver non esiste"));
+                                }
+                            }
+                            if(errorReceivers=="") {
+                                File emailSentInClient = new File("clientprova/src/main/resources/com/example/clientprova/" + clientName + "/" + email.getID() + ".txt");
+                                emailSentInClient.createNewFile();
+                                FileWriter fileWriter = new FileWriter(emailSentInClient);
+                                fileWriter.write(new Gson().toJson(email));
+                                fileWriter.close();
+                                for (int i = 0; i < receivers.size(); i++) {
+                                    File emailSentInReceivers = new File("clientprova/src/main/resources/com/example/clientprova/" + receivers.get(i) + "/" + email.getID() + ".txt");
+                                    emailSentInReceivers.createNewFile();
+                                    fileWriter = new FileWriter(emailSentInReceivers);
+                                    fileWriter.write(new Gson().toJson(email));
+                                    fileWriter.close();
+                                }
+                                outStream.writeUTF("Success: Email inviata con successo");
+                                outStream.flush();
+                                Platform.runLater(() -> serverLog.setLastMessage("Email id:" + email.getID() + " da [" + email.getSender() + "] a " + email.getReceivers() + " inviata!"));
+                            }
+
+                        }catch (IOException e){
+                            Platform.runLater(() -> serverLog.setLastMessage("ERROR: errore comunicazione in invio mail da client " + clientName ));
+                            outStream.writeUTF("ERROR: errore in invio mail");
                         }
-                        outStream.writeUTF("Success: Email inviata con successo");
-                        outStream.flush();
-                        System.out.println("Email id:" + email.getID() + " da [" + email.getSender() + "] a "+ email.getReceivers() + " inviata!");
                         break;
                     case "receive":
                         receive();
                         break;
 
                     case "read":
-                        clientName = inStream.readUTF();
-                        Email newEmail = (Email) inStream.readObject();
-                        System.out.println("Letta mail: "+ newEmail);
-                        File emailToUpdate=new File("clientprova/src/main/resources/com/example/clientprova/"+ clientName+"/"+newEmail.getID()+".txt");
-                        FileWriter f;
                         try {
+                            Email newEmail = (Email) inStream.readObject();
+                            File emailToUpdate=new File("clientprova/src/main/resources/com/example/clientprova/"+ clientName+"/"+newEmail.getID()+".txt");
+                            FileWriter f;
                             f = new FileWriter(emailToUpdate, false);
                             f.write(new Gson().toJson(newEmail));
                             f.close();
+                            Platform.runLater(()->serverLog.setLastMessage("Email di utente" +clientName+" con id:" + newEmail.getID()+ " segnata come letta"));
                             outStream.writeUTF("Success: Email modificata con successo");
                         }catch (IOException e) {
-                                e.printStackTrace();
-                                outStream.writeUTF("Error: Errore nella modifica");
+                            e.printStackTrace();
+                            Platform.runLater(()->serverLog.setLastMessage("ERROR: Email di " + clientName +  " non segnata come letta, errore comunicazione"));
+                            outStream.writeUTF("ERROR: Errore nella modifica");
                         }finally {
                             outStream.flush();
                         }
 
                         break;
                     case "delete":
-                        System.out.println("Leggo dato...");
-
-                        clientName=inStream.readUTF();
                         String id=inStream.readUTF();
-                        System.out.println("Letto...");
                         File emailToDelete=new File("clientprova/src/main/resources/com/example/clientprova/"+ clientName+"/"+id+".txt");
-                        System.out.println(emailToDelete.exists());
 
                         if (emailToDelete.delete()) {
                             outStream.writeUTF("Ok");
@@ -121,20 +127,19 @@ public class ClientThreadHandler implements Runnable {
             } finally{
                 closeStreams();
                 incoming.close();
+                Platform.runLater(()-> serverLog.setLastMessage("Utente " + clientName + " disconnesso"));
+
             }
         } catch (IOException e){
+            Platform.runLater(()->serverLog.setLastMessage("ERROR: Errore chiusura stream client "+ clientName));
             e.printStackTrace();
         }
-
-
-
     }
     private void receive(){
-        System.out.println("before try");
-            try {
-                String clientName = inStream.readUTF();
+        try {
                 String dateLastCheck = (String) inStream.readUTF();
                 ArrayList<Email> emailList=new ArrayList<>();
+                Platform.runLater(()-> serverLog.setLastMessage("Utente " + clientName + (dateLastCheck=="null"? " ha effettuato l'accesso, invio mail": " connesso, ricerca nuove mail")));
 
                 //Cerco directory del client
                 File resource = new File("clientprova/src/main/resources/com/example/clientprova/"+clientName);
@@ -153,23 +158,7 @@ public class ClientThreadHandler implements Runnable {
                                     }
                             );
                         }
-                        //TODO: la sincronizzazione non permettere di vedere email nuove
-                        //messo iterator perché altrimenti dà currentModificationException
                         //se data non è nulla tolgo dalla lista dei file quelli con data <=alla data inviata
-                        /*if(!dateLastCheck.equals("null")) {
-                            System.out.println("Prima   -------- "+directoryListing.size());
-                            Iterator<File> iterator = directoryListing.iterator();
-                            while (iterator.hasNext()) {
-                                File f = iterator.next();
-                                String fileDate = f.getName().split("_")[0];
-                                if(fileDate.compareTo(dateLastCheck) <= 0){
-                                    System.out.println("dateLastCheck: " + dateLastCheck + "   fileDate: " + fileDate);
-                                    iterator.remove();
-                                }
-                            }
-                            System.out.println("Dopo ---------- "+directoryListing.size());
-                        }*/
-
                         //leggo mail dal file e la inserisco in array emailList
                         BufferedReader reader;
                         StringBuilder sb;
@@ -187,6 +176,7 @@ public class ClientThreadHandler implements Runnable {
                             //String json = "{'ID':'abc34e','data':'2023-01-05','sender':'io@gmail.com','receivers':['tu@mail.it','prova.gmail.it', 'studente@unito.it'],'subject':'oggetto','text':''}";
                             Gson gson = new Gson();
                             Email e = gson.fromJson(json, Email.class);
+                            System.out.println("Mail "+ e.toReadProperty());
                             emailList.add(0, e);
                         }
                     }
@@ -206,20 +196,29 @@ public class ClientThreadHandler implements Runnable {
                             clientSentMail.add(eS);
                         }
                     });
-
                     outStream.writeObject(clientSentMail);
+                    Platform.runLater(()-> serverLog.setLastMessage("Utente " + clientName + (clientSentMail.size()>0? " riceve mail inviate: " + printMailArray(clientSentMail): " nessuna mail inviata")));
                 }
 
                 outStream.writeObject(clientReceivedMail);
-                outStream.flush();
-                System.out.println("Utente " + clientName + " ha effettuato l'accesso");
+                Platform.runLater(()-> serverLog.setLastMessage("Utente " + clientName + (clientReceivedMail.size()>0? " riceve mail in arrivo: " + printMailArray(clientReceivedMail): " nessuna mail ricevuta")));
+            outStream.flush();
 
             } catch (IOException e) {
                 System.out.println(e.getMessage()+e.getCause());
-                //e.printStackTrace();
+                Platform.runLater(()-> serverLog.setLastMessage("ERROR: Utente " + clientName + " errore di comunicazione"));
+            //e.printStackTrace();
             }
         }
 
+    public String printMailArray(ArrayList<Email> mailArray) {
+            String print = "{\n";
+            for (Email e : mailArray) {
+                print += "\t" + e.toString()+"\n";
+            }
+            print += "}";
+            return print;
+        }
 
     private void openStreams(Socket socket) throws IOException {
         System.out.println("Server Connesso");
@@ -231,8 +230,7 @@ public class ClientThreadHandler implements Runnable {
         running = false;
     }
 
-    private void closeStreams() {
-        try {
+    private void closeStreams() throws IOException {
             if(inStream != null) {
                 inStream.close();
             }
@@ -240,9 +238,7 @@ public class ClientThreadHandler implements Runnable {
             if(outStream != null) {
                 outStream.close();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 }
 

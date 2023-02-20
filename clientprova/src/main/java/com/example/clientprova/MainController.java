@@ -49,6 +49,7 @@ public class MainController {
             stage = (Stage) root.getScene().getWindow();
             stage.setHeight(600);
             stage.setWidth(977);
+            //stage.setMaximized(true);
             stage.centerOnScreen();
             stage.addEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST, event -> {
                 if (clientController != null){
@@ -72,7 +73,7 @@ public class MainController {
                 readEmailNode = readEmailLoader.load();
                 root.setCenter(readEmailNode);
                 this.readEmail = readEmailLoader.getController();
-                readEmail.setMainController(this, model, clientController);
+                readEmail.setMainController(this, model, clientController, stage);
 
                 clientController.communicate("localhost", 8085);
 
@@ -133,7 +134,7 @@ public class MainController {
     }
 
     public void loadAlert(String msg1, String msg2, String type, String action){
-        new AlertController(msg1, msg2, type,action, writeEmail, ()->{
+        new AlertController(msg1, msg2, type, writeEmail, ()->{
             if(!model.isWriting()) {
                 model.setWriting(true);
             }

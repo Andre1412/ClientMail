@@ -83,7 +83,6 @@ public class Client {
     public void setNewEmails() {
         int newEmails=0;
         for(Email e: inboxContent){
-            System.out.println(e+ " ----- " + e.toReadProperty());
             if(e.toReadProperty()){
                 newEmails++;
             }
@@ -106,10 +105,11 @@ public class Client {
     public void setInboxContent(ArrayList<Email> inbox) {
         if(inbox.size()>0) {
             Collections.sort(inbox, Collections.reverseOrder());
-            System.out.println("sorted mails: "+inbox);
+
+            inbox.forEach((e)->System.out.println("Mail: "+ e + e.toReadProperty()));
+
             this.inboxContent.addAll(0, inbox);
             setNewEmails();
-            System.out.println(view.getValue().equals("incoming"));
             if(view.getValue().equals("incoming"))
                 setCurrentEmails();
         }
@@ -126,8 +126,15 @@ public class Client {
     public void setSentContent(ArrayList<Email> sent) {
         if(sent.size()>0) {
             Collections.sort(sent, Collections.reverseOrder());
+            int i=0;
             for (Email e : sent) {
-                e.setToReadProperty(false);
+                if(e.getReceivers().contains(e.getSender())){
+                    sent.set(i,new Email(e.getID(),e.getDataSpedizione(),e.getSender(),e.getReceivers(),e.getSubject(),e.getText(),false));
+                }else {
+                    e.setToReadProperty(false);
+                }
+                i++;
+
             }
             this.sentContent.addAll(0, sent);
             if(view.getValue().equals("sent"))
@@ -153,7 +160,6 @@ public class Client {
     }
 
     public void setCurrentEmails(){
-        System.out.println("Set current");
         currentEmails.clear();
         currentEmails.addAll(view.getValue().equals("incoming")? inboxContent:sentContent);
     }

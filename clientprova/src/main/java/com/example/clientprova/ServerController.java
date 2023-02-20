@@ -19,16 +19,16 @@ public class ServerController {
     public void setMainController(ServerLog serverLog){
         this.serverLog=serverLog;
         serverLog.getLastMessage().addListener(((observableValue, oldV, newV) ->{
-            addLog(newV,"");
+            addLog(newV);
         }));
     }
 
-    public void addLog(String msg, String type){
-        Text log= new Text(LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")) +" | " + type + "  " + msg+"\n");
-        if(type=="ERROR"){
-            log.setFill(Color.RED);
-        }else if(type=="WARN"){
-            log.setFill(Color.YELLOW);
+    public void addLog(String msg){
+        Text log= new Text(LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")) +"\t| " + "  " + msg+"\n");
+        if(msg.contains("ERROR")){
+            log.setFill(Color.web("#cf3434"));
+        }else{
+            log.setFill(Color.WHITE);
         }
         textFlow.getChildren().add(log);
 

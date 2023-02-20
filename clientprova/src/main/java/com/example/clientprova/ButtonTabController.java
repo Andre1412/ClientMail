@@ -35,7 +35,6 @@ public class ButtonTabController {
         model.newEmailsProperty().addListener(((observableValue, oldValue, newValue) -> {
             newEmails.setFill(newValue.equals(0) ? Color.TRANSPARENT : Color.BLUE);
             numberEmails.setText(newValue.equals(0) ? "" : newValue.toString());
-            System.out.println("Listener");
         }));
         btnIncoming.setStyle("-fx-background-color: #57598C");
         this.model.getViewProperty().addListener(((observableValue, oldV, newV) ->{

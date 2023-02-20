@@ -1,1 +1,0 @@
-{"ID":"19022023155407_6bfe028b-c244-4298-9c7e-44b3bdcf0a63","dataSpedizione":"19-02-2023","sender":"prof@gmail.com","receivers":["studente@unito.it"],"text":"M","subject":"Emme","toRead":true}

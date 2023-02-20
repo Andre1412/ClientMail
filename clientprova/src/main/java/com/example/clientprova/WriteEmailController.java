@@ -79,12 +79,20 @@ public class WriteEmailController {
         String date=simpleDateFormat.format(new Date());
 
         String uniqueID = date + "_" + UUID.randomUUID();
-        if((txtEmail.getText() != "" && lblSubject.getText()!="") || checkBodyEmail) {
+        if((txtEmail.getText() != "" && lblSubject.getText()!="") || checkBodyEmail){
             ArrayList<String> receivers = getReceivers();
             if (receivers.size() > 0) {
+                Pattern patternMail = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", Pattern.CASE_INSENSITIVE);
+                Matcher matcher;
+                String errorReceiver="";
+                for(String account:receivers) {
+                     matcher = patternMail.matcher(account);
+                     if(!matcher.find()) errorReceiver+=(errorReceiver!=""? ", " : " ") + account;
+                }
+
+                if(errorReceiver==""){
+
                 lblTo.setStyle("-fx-border-color: none;");
-                String checkReceivers = checkReceivers(receivers);
-                if (checkReceivers == "") {
                     Email send = new Email(uniqueID, lblData.getText(), lblsenderAccount.getText(), receivers, lblSubject.getText(), txtEmail.getText(), true);
                     clientController.sendEmail(send,response->{
                         if(response.getStatus()=="OK"){
@@ -102,9 +110,10 @@ public class WriteEmailController {
 
                  else {
                     lblTo.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-                    Alert a = new Alert(Alert.AlertType.ERROR);
-                    a.setContentText("L'utente " + checkReceivers + " non esiste. Impossibile inviare mail");
-                    a.show();
+/*                    Alert a = new Alert(Alert.AlertType.ERROR);
+                    a.setContentText("Receiver" + errorReceiver + " errato/i");
+                    a.show();*/
+                    new AlertController("ERROR","Receiver" + errorReceiver + " errato/i","ERROR",this,()->null ).showAndWait();
                 }
             } else {
                 lblTo.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
@@ -127,24 +136,10 @@ public class WriteEmailController {
             String[] receiv = lblTo.getText().split("\\s+");
             for (int i = 0; i < receiv.length; i++) {
                 receivers.add(receiv[i]);
-                System.out.println(receivers.get(i));
             }
         }
         return receivers;
     }
-
-    private String checkReceivers(ArrayList<String> r){
-        boolean errorReceivers=true;
-        for(int i = 0; i<r.size(); i++){
-            errorReceivers = errorReceivers && new File("clientprova/src/main/resources/com/example/clientprova/"+r.get(i)).exists();
-
-            if(!errorReceivers){
-                return r.get(i);
-            }
-        }
-        return "";
-    }
-
     public void clearWriteEmail(){
         lblTo.setText("");
         lblTo.setEditable(true);
@@ -187,7 +182,6 @@ public class WriteEmailController {
                     if(!rec.get(i).equals(model.getEmailAddress()))
                         receiver += " " + (rec.get(i));
                 }
-                System.out.println(receiver);
                 lblTo.setText(receiver);
                 lblTo.setEditable(false);
                 lblSubject.setText("Re: " + mail.getSubject());

@@ -1,28 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-        <?import javafx.geometry.Insets?>
-        <?import javafx.scene.control.Button?>
-        <?import javafx.scene.control.DialogPane?>
-        <?import javafx.scene.control.Label?>
-        <?import javafx.scene.layout.HBox?>
-        <?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-
-<DialogPane xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<DialogPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@style.css">
 <content>
-   <VBox fx:id="dialogPaneVBox" alignment="CENTER" spacing="20.0">
+   <VBox fx:id="dialogPaneVBox" alignment="CENTER" prefWidth="388.0" spacing="20.0">
       <children>
          <HBox fx:id="dialogPaneHBox" alignment="TOP_CENTER" spacing="10.0">
             <children>
-               <Label fx:id="info" text="Errore!" />
-               <Label fx:id="msg1" text="Qualcosa è andato storto" />
+               <Label fx:id="info" text="Errore!" textFill="#8082b0">
+                     <font>
+                        <Font name="Alexandria Regular" size="18.0" />
+                     </font></Label>
+               <Label fx:id="msg1" text="Qualcosa è andato storto" textFill="#8082b0">
+                     <font>
+                        <Font name="Alexandria Regular" size="18.0" />
+                     </font></Label>
             </children>
          </HBox>
-         <Label fx:id="msg2" text="messaggio2" />
+         <Label fx:id="msg2" style="-fx-font-weight: 700;" text="messaggio2" textFill="#8082b0">
+               <font>
+                  <Font name="Alexandria Regular" size="16.0" />
+               </font></Label>
          <HBox alignment="CENTER" spacing="10.0">
             <children>
-               <Button fx:id="noBtn" mnemonicParsing="false" text="Button" />
-               <Button fx:id="okBtn" mnemonicParsing="false" text="Button" />
+               <Button fx:id="noBtn" mnemonicParsing="false"  />
+               <Button fx:id="okBtn" mnemonicParsing="false"  />
             </children>
             <opaqueInsets>
                <Insets />

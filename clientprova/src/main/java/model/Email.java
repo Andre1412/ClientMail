@@ -106,9 +106,9 @@ public class Email implements Serializable, Comparable<Email>{
      */
     @Override
     public String toString() {
-        return this.sender+ "        "+
-                String.join("  -  ", List.of(this.subject,  this.text.length()>60?this.text.replace("\n","")
-                        .substring(0, 30) + "...": this.text.replace("\n","")));
+        return this.sender+ " "+
+                String.join("  -  ", List.of(this.subject,  this.text.length()>10?this.text.replace("\n","")
+                        .substring(0, 10) + "...": this.text.replace("\n","")));
     }
 }
 

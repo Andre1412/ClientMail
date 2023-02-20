@@ -1,1 +1,0 @@
-{"ID":"19022023232224_8d4d5293-fa93-49aa-8a68-24eb2fad1013","dataSpedizione":"19-02-2023 23:22","sender":"studente@unito.it","receivers":["studente@unito.it"],"text":"bfdbdfbfdb","subject":"iotrijo 2","toRead":false}

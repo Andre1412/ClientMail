@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -53,11 +54,25 @@
             <top>
                 <VBox minHeight="150.0" spacing="5.0" BorderPane.alignment="CENTER">
                     <children>
-                        <Label fx:id="lblFrom" text="SenderAccount">
-                            <font>
-                                <Font size="15.0" />
-                            </font>
-                        </Label>
+                  <HBox>
+                     <children>
+                              <Label fx:id="lblFrom" text="SenderAccount">
+                                  <font>
+                                      <Font size="15.0" />
+                                  </font>
+                              </Label>
+                        <Region minWidth="0.0" prefHeight="0.0" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="closeBtn" mnemonicParsing="false" onAction="#closePanel" prefHeight="18.0" prefWidth="18.0">
+                           <graphic>
+                              <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/close.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </HBox>
                         <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="5.0">
                             <children>
                                 <Label fx:id="lblTo" text="NomiAccount" />

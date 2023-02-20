@@ -1,12 +1,16 @@
 package com.example.clientprova;
 
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 import model.Client;
 import model.Email;
 
@@ -20,8 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 public class EmailCell extends ListCell<Email> {
-    @FXML
-    public Circle readMark;
+
     @FXML
     public Label dateLabel;
 
@@ -30,41 +33,42 @@ public class EmailCell extends ListCell<Email> {
 
     @FXML
     public Label mailText;
-
+    public ListView parent;
+    String fullText;
     Client model;
-    public EmailCell(Client model) {
+    Stage stage;
+    int nChar;
+    public EmailCell(Client model, ListView parent, Stage stage) {
         try {
             this.model = model;
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource("emailCell.fxml"));
             loader.setController(this);
             loader.setRoot(this);
             loader.load();
+            this.parent=parent;
+            this.stage=stage;
+            nChar=40;
             itemProperty().addListener((obs, oldValue, newValue) -> {
                 // Empty cell
                 if (newValue == null) {
                     return;
                 }
-                System.out.println("Da leggere mail "+ newValue + " " + newValue.toReadProperty());
-                mailAccount.setText(model.getView()=="incoming"? newValue.getSender(): newValue.getReceivers().toString().length()>20? newValue.getReceivers().toString().substring(0,20)+"...": newValue.getReceivers().toString());
-                mailText.setText(String.join("  -  ", List.of(newValue.getSubject(),  newValue.getText().length()>40? newValue.getText().replace("\n","")
-                        .substring(0, 40) + "...": newValue.getText().replace("\n",""))));
-                Calendar today = Calendar.getInstance();
 
-                Calendar date = Calendar.getInstance();
+                this.fullText=newValue.getText();
+                mailAccount.setText(model.getView()=="incoming"? newValue.getSender(): String.join(", ", newValue.getReceivers()).length()>22? String.join(", ", newValue.getReceivers()).substring(0,22)+"...": String.join(", ", newValue.getReceivers()));
+                mailText.setText(String.join("  -  ", List.of(newValue.getSubject(), newValue.getText().length()>30? newValue.getText().replace("\n","")
+                        .substring(0, 30) + "...": newValue.getText().replace("\n",""))));
 
+
+                if(newValue.toReadProperty()){
+                    System.out.println("Mail to read: "+ newValue + newValue.getID() +newValue.toReadProperty());
+                    if(!getStyleClass().contains("toRead")) getStyleClass().add("toRead");
+                }else {
+                    if(getStyleClass().contains("toRead")) getStyleClass().remove("toRead");
+                }
 
                 dateLabel.setText(newValue.getDataSpedizione());
-
-
-                //DateFormat df;
-                 /*   if (date.get(Calendar.YEAR) == today.get(Calendar.YEAR)
-                            && date.get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR)) {
-                        df = new SimpleDateFormat("HH:mm");
-                    } else {
-                        df = new SimpleDateFormat("dd MMM yy, HH:mm");
-                    }*/
-                    //dateLabel.setText(newValue.getDataSpedizione());
-                    setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+                setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
                 });
 
 

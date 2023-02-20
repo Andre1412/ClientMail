@@ -28,13 +28,11 @@ public class AlertController extends Dialog<ButtonType> {
 
     Client model;
 
-    public AlertController(String msg1, String msg2, String type, String action, WriteEmailController writeEmailController, Callable<Void> f){
+    public AlertController(String msg1, String msg2, String type, WriteEmailController writeEmailController, Callable<Void> f){
         try{
             Window window = getDialogPane().getScene().getWindow();
             window.setOnCloseRequest(event -> window.hide());
-            System.out.println("AlertController");
             this.loader = new FXMLLoader(getClass().getResource("alert.fxml"));
-            System.out.println((getClass().getResource("alert.fxml")));
             loader.setController(this);
             DialogPane dialogPane = loader.load();
             model = writeEmailController.model;

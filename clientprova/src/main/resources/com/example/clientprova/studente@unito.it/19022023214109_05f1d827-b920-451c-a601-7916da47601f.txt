@@ -1,1 +1,0 @@
-{"ID":"19022023214109_05f1d827-b920-451c-a601-7916da47601f","dataSpedizione":"19-02-2023","sender":"studente@unito.it","receivers":["studente@unito.it"],"text":"Prova ancora una volta il progetto","subject":"Re: Prova q6","toRead":false}
