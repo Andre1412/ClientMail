@@ -81,6 +81,7 @@ public class ClientThreadHandler implements Runnable {
                             outStream.writeUTF("ERROR: errore in invio mail");
                         }
                         break;
+
                     case "receive":
                         receive();
                         break;
@@ -116,8 +117,7 @@ public class ClientThreadHandler implements Runnable {
                             System.out.println("Failed to delete the file."+ emailToDelete);
                             outStream.writeUTF("Failed to delete the file");
                             outStream.flush();
-                            File resource = new File("clientprova/src/main/resources/com/example/clientprova/"+clientName);
-
+//                            File resource = new File("clientprova/src/main/resources/com/example/clientprova/"+clientName);
                         }
                         break;
                 }

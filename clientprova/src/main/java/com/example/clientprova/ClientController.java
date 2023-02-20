@@ -116,8 +116,6 @@ public class ClientController {
 
     private void connectToServer(String host, int port) throws IOException {
             socket = new Socket(host, port);
-            //TODO: serve ancora?
-            //socket.setSoTimeout(2*1000);
             outputStream = new ObjectOutputStream(socket.getOutputStream());
             outputStream.flush();
             inputStream = new ObjectInputStream(socket.getInputStream());

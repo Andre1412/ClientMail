@@ -101,14 +101,14 @@ public class WriteEmailController {
                                 lblSubject.setText("");
                                 lblTo.setText("");
                             });
-                        }else  Platform.runLater(()-> mainController.loadAlert("Qualcosa è andato storto",response.getMsg(),"ERROR", ""));
+                        }else {
+                            Platform.runLater(() -> mainController.loadAlert("ERROR: Qualcosa è andato storto", response.getMsg(), "ERROR", ""));
+                            if(response.getMsg().contains("non esiste")) lblTo.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                        }
 
                     });
                     model.setWriting(false);
-                }
-//                    System.out.println(feedback);
-
-                 else {
+                }else {
                     lblTo.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
 /*                    Alert a = new Alert(Alert.AlertType.ERROR);
                     a.setContentText("Receiver" + errorReceiver + " errato/i");
