@@ -1,6 +1,7 @@
 package com.example.clientprova;
 
 import com.google.gson.Gson;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.Client;
@@ -112,10 +113,10 @@ public class ClientThreadHandler implements Runnable {
                         if (emailToDelete.delete()) {
                             outStream.writeUTF("Ok");
                             outStream.flush();
-                            System.out.println("Eliminata email " + id);
+                            Platform.runLater(()->serverLog.setLastMessage("Eliminata email " + id));
                         } else {
-                            System.out.println("Failed to delete the file."+ emailToDelete);
-                            outStream.writeUTF("Failed to delete the file");
+                            Platform.runLater(()->serverLog.setLastMessage("ERROR: Errore eliminazione mail"+ id));
+                            outStream.writeUTF("ERROR: Failed to delete the file");
                             outStream.flush();
 //                            File resource = new File("clientprova/src/main/resources/com/example/clientprova/"+clientName);
                         }

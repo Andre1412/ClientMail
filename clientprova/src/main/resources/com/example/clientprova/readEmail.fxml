@@ -20,7 +20,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane fx:id="PaneListEmail" dividerPositions="0.3396" prefHeight="600.0" prefWidth="840.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.clientprova.ReadEmailController">
+<SplitPane fx:id="PaneListEmail" dividerPositions="0.3396" prefHeight="600.0" prefWidth="840.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.clientprova.ReadEmailController">
     <items>
       <VBox fx:id="borderListEmail" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: none;">
          <children>
