@@ -123,6 +123,7 @@ public class ReadEmailController {
             }
             Platform.runLater(()-> model.setCurrentEmails());
         }
+        searchTxt.setText("");
         if(PaneListEmail.getItems().contains(borderTextEmail)) PaneListEmail.getItems().remove(borderTextEmail);
     }
 
