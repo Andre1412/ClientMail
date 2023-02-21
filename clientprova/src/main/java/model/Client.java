@@ -92,6 +92,11 @@ public class Client {
         this.newEmails.setValue(newEmails);
     }
 
+    public void permanentlyDelete(Email mail){
+        deletedContent.remove(mail);
+        setCurrentEmails();
+    }
+
     public int newEmails() {
         return newEmails.getValue();
     }
@@ -115,14 +120,6 @@ public class Client {
             if(view.getValue().equals("incoming"))
                 setCurrentEmails();
         }
-    }
-    public void removeInboxContent(Email mail){
-        inboxContent.remove(mail);
-        setCurrentEmails();
-    }
-    public void removeSentContent(Email mail){
-        sentContent.remove(mail);
-        setCurrentEmails();
     }
     //set sent to the list of emails passed as parameter
     public void setSentContent(ArrayList<Email> sent) {
@@ -164,13 +161,10 @@ public class Client {
         return emailAddress;
     }
 
-    public ObservableList<Email> getInboxContent() {
-        return inboxContent;
+    public ObservableList<Email> getDeletedContent() {
+        return deletedContent;
     }
 
-    public ObservableList<Email> getSentContent() {
-        return sentContent;
-    }
 
     public void setCurrentEmails(){
         currentEmails.clear();

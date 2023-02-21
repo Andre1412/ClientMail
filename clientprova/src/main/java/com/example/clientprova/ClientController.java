@@ -181,6 +181,29 @@ public class ClientController {
             }
         });
     }
+    public void permanentlyDelete(Email email, ResponseFunction response){
+        threadPool.execute(()->{
+            try{
+                this.connectToServer("localhost", 8085);
+                outputStream.writeUTF("permanentDelete");
+                outputStream.writeUTF(client.getEmailAddress());
+                outputStream.writeUTF(email.getID());
+                outputStream.flush();
+                String feedback=inputStream.readUTF();
+
+                ServerResponse res=new ServerResponse(feedback.contains("ERROR")? "ERROR":"OK", feedback);
+                response.run(res);
+            }catch (IOException e){
+                System.out.println("Errore comunicazione: "+ e.getMessage());
+                this.serverStatus.setValue(false);
+                response.run(new ServerResponse("ERROR", "Errore di comunicazione"));
+            }finally{
+                System.out.println("Chiudo");
+                closeConnections();
+            }
+        });
+
+    }
     public void deleteEmail(Email email, ResponseFunction response){
         threadPool.execute(()->{
             try{

@@ -123,6 +123,24 @@ public class ClientThreadHandler implements Runnable {
                             outStream.flush();
                         }
                         break;
+                    case "permanentDelete":
+                        try {
+                            String mailId = inStream.readUTF();
+                            File emailToDelete = new File("clientprova/src/main/resources/com/example/clientprova/" + clientName + "/" + mailId + ".txt");
+                            if(emailToDelete.delete()){
+                                Platform.runLater(() -> serverLog.setLastMessage("Eliminata email " + mailId));
+                                outStream.writeUTF("Ok");
+                            }else{
+                                outStream.writeUTF("ERROR: Failed to delete the file");
+                            }
+                            outStream.flush();
+
+                        }catch (IOException e){
+                            Platform.runLater(()->serverLog.setLastMessage("ERROR: Errore eliminazione mail client"+ clientName));
+                            outStream.writeUTF("ERROR: Failed to delete the file");
+                            outStream.flush();
+                        }
+                        break;
                 }
             } catch (ClassNotFoundException e) {
                 System.out.println(e.getMessage() + " " + e.getCause());

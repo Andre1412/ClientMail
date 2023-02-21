@@ -1,0 +1,1 @@
+{"ID":"21022023154424_8079f730-fbb9-414f-b7af-728356517dee","dataSpedizione":"21-02-2023 15:44","sender":"studente@unito.it","receivers":["prof@unito.it"],"text":"","subject":"studente cancella","toRead":false,"deleted":false}

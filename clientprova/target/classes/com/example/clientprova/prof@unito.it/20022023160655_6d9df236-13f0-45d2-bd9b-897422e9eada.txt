@@ -1,1 +1,1 @@
-{"ID":"20022023160655_6d9df236-13f0-45d2-bd9b-897422e9eada","dataSpedizione":"20-02-2023 16:06","sender":"prof@gmail.com","receivers":["prof@unito.it"],"text":"","subject":"","toRead":false}
+{"ID":"20022023160655_6d9df236-13f0-45d2-bd9b-897422e9eada","dataSpedizione":"20-02-2023 16:06","sender":"prof@gmail.com","receivers":["prof@unito.it"],"text":"","subject":"","toRead":false,"deleted":true}

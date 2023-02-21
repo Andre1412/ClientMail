@@ -55,7 +55,7 @@ public class EmailCell extends ListCell<Email> {
                 }
 
                 this.fullText=newValue.getText();
-                mailAccount.setText(model.getView()=="sent"?  String.join(", ", newValue.getReceivers()).length()>22? String.join(", ", newValue.getReceivers()).substring(0,22)+"...": String.join(", ", newValue.getReceivers()):newValue.getSender());
+                mailAccount.setText(model.getView()=="sent"? "A: " + (String.join(", ", newValue.getReceivers()).length()>20? String.join(", ", newValue.getReceivers()).substring(0,20)+"...": String.join(", ", newValue.getReceivers())):newValue.getSender());
                 mailText.setText(String.join("  -  ", List.of(newValue.getSubject(), newValue.getText().length()>30? newValue.getText().replace("\n","")
                         .substring(0, 30) + "...": newValue.getText().replace("\n",""))));
 

@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -43,8 +44,9 @@ public class ReadEmailController {
     public Button btnInoltra;
     @FXML
     public Circle status;
+    public Button btnRispondi;
+    public Button btnRispondiTutti;
     @FXML
-    public HBox interactionButtons;
 
     SimpleBooleanProperty server_status;
 
@@ -120,7 +122,9 @@ public class ReadEmailController {
         PaneListEmail.getItems().remove(borderTextEmail);
     }
     public void hideInteraction(boolean hide){
-        this.interactionButtons.setVisible(!hide);
+        this.btnInoltra.setVisible(!hide);
+        this.btnRispondi.setVisible(!hide);
+        this.btnRispondiTutti.setVisible(!hide);
     }
 
     public void changeView(String newView){
@@ -135,23 +139,37 @@ public class ReadEmailController {
 
 
     @FXML
-    protected void onDeleteButtonClick() {
-        clientController.deleteEmail(selectedEmail,response->{
-            if(response.getStatus()=="ERROR"){
-                Platform.runLater(()->new AlertController("Qualcosa è andato storto",response.getMsg(),"ERROR", mainController.writeEmail, ()->null));
-            }else {
-                selectedEmail.setDeleted(true);
-                Platform.runLater(()-> {
-                    ArrayList<Email> deletedArray=new ArrayList<>();
-                    deletedArray.add(selectedEmail);
-                    selectedEmail = null;
-                    model.setDeletedContent(deletedArray);
+    protected void onDeleteButtonClick(ActionEvent event) {
+        if(model.getDeletedContent().contains(selectedEmail)) {
+            System.out.println("Permanente");
+            clientController.permanentlyDelete(selectedEmail, response -> {
+                if (response.getStatus() == "ERROR") {
+                    Platform.runLater(() -> new AlertController("Qualcosa è andato storto", response.getMsg(), "ERROR", mainController.writeEmail, () -> null).showAndWait());
+                } else {
+                    Platform.runLater(() -> {
+                        model.permanentlyDelete(selectedEmail);
+                        selectedEmail = null;
+                        PaneListEmail.getItems().remove(borderTextEmail);
+                    });
+                }
+            });
+        }else {
+            clientController.deleteEmail(selectedEmail, response -> {
+                if (response.getStatus() == "ERROR") {
+                    Platform.runLater(() -> new AlertController("Qualcosa è andato storto", response.getMsg(), "ERROR", mainController.writeEmail, () -> null).showAndWait());
+                } else {
+                    selectedEmail.setDeleted(true);
+                    Platform.runLater(() -> {
+                        ArrayList<Email> deletedArray = new ArrayList<>();
+                        deletedArray.add(selectedEmail);
+                        selectedEmail = null;
+                        model.setDeletedContent(deletedArray);
 
-                    PaneListEmail.getItems().remove(borderTextEmail);
-                });
-            }
-        });
-
+                        PaneListEmail.getItems().remove(borderTextEmail);
+                    });
+                }
+            });
+        }
     }
 
     @FXML
