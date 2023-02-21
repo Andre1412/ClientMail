@@ -54,7 +54,7 @@
                               <Insets bottom="10.0" top="10.0" />
                            </HBox.margin>
                         </TextField>
-                        <Button fx:id="searchEmail" alignment="CENTER" mnemonicParsing="false" onAction="#searchEmail" text="Cerca" textFill="WHITE">
+                        <Button fx:id="searchEmail" alignment="CENTER" mnemonicParsing="false" onAction="#searchEmail" text="Cerca" defaultButton="true" textFill="WHITE">
                            <graphic>
                               <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
