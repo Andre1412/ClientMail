@@ -72,7 +72,7 @@ public class ReadEmailController {
         });
 
         model.getViewProperty().addListener(((observableValue, oldV, newV) -> changeView(newV)));
-        listEmail.setCellFactory((listView)->new EmailCell(model, listEmail,stage));
+        listEmail.setCellFactory((listView)->new EmailCell(model, listEmail,stage, this));
         listEmail.setOnMouseClicked(this::showSelectedEmail);
         username.textProperty().bind(model.emailAddressProperty());
         PaneListEmail.getItems().remove(borderTextEmail);
@@ -107,6 +107,10 @@ public class ReadEmailController {
             selectedEmail = email;
             updateDetailView(email);
         }
+    }
+
+    public void setSelectedEmail(Email selectedEmail) {
+        this.selectedEmail = selectedEmail;
     }
 
     protected void updateDetailView(Email email) {
@@ -164,7 +168,6 @@ public class ReadEmailController {
                         deletedArray.add(selectedEmail);
                         selectedEmail = null;
                         model.setDeletedContent(deletedArray);
-
                         PaneListEmail.getItems().remove(borderTextEmail);
                     });
                 }

@@ -1,12 +1,10 @@
 package com.example.clientprova;
 
 import javafx.beans.value.ChangeListener;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -33,12 +31,15 @@ public class EmailCell extends ListCell<Email> {
 
     @FXML
     public Label mailText;
+
+    @FXML
+    public Button cellDeleteBtn;
     public ListView parent;
     String fullText;
     Client model;
     Stage stage;
     int nChar;
-    public EmailCell(Client model, ListView parent, Stage stage) {
+    public EmailCell(Client model, ListView parent, Stage stage, ReadEmailController readController) {
         try {
             this.model = model;
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource("emailCell.fxml"));
@@ -55,6 +56,11 @@ public class EmailCell extends ListCell<Email> {
                 }
 
                 this.fullText=newValue.getText();
+
+                cellDeleteBtn.setOnAction((event)->{
+                    readController.setSelectedEmail(newValue);
+                    readController.onDeleteButtonClick(event);
+                });
                 mailAccount.setText(model.getView()=="sent"? "A: " + (String.join(", ", newValue.getReceivers()).length()>20? String.join(", ", newValue.getReceivers()).substring(0,20)+"...": String.join(", ", newValue.getReceivers())):newValue.getSender());
                 mailText.setText(String.join("  -  ", List.of(newValue.getSubject(), newValue.getText().length()>30? newValue.getText().replace("\n","")
                         .substring(0, 30) + "...": newValue.getText().replace("\n",""))));
@@ -76,6 +82,7 @@ public class EmailCell extends ListCell<Email> {
             throw new RuntimeException(exception);
         }
     }
+
 
     @Override
     protected void updateItem(Email item, boolean empty) {

@@ -127,3 +127,10 @@ TextFlow Text{
     -fx-border-width: 3px;
     -fx-border-radius: 2px;
 }
+
+#cellDeleteBtn{
+    visibility: hidden;
+}
+.list-cell:hover #cellDeleteBtn{
+    visibility: visible;
+}

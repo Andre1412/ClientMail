@@ -147,6 +147,9 @@ public class Client {
             for (Email e : deleted) {
                 sentContent.remove(e);
                 inboxContent.remove(e);
+                if(e.toReadProperty()){
+                    setNewEmails();
+                }
             }
             this.deletedContent.addAll(0,deleted);
             setCurrentEmails();
