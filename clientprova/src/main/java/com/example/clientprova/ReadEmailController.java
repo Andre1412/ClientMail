@@ -64,6 +64,7 @@ public class ReadEmailController {
             listEmail.itemsProperty().setValue((ObservableList<Email>) value.getList());
         });
 
+        model.getViewProperty().addListener(((observableValue, oldV, newV) -> changeView(newV) ));
         listEmail.setCellFactory((listView)->new EmailCell(model, listEmail,stage));
         listEmail.setOnMouseClicked(this::showSelectedEmail);
         username.textProperty().bind(model.emailAddressProperty());
@@ -113,21 +114,13 @@ public class ReadEmailController {
     }
 
     public void changeView(String newVue){
-        if(newVue=="incoming" && model.getView()!="incoming"){
+        if(newVue=="incoming" || newVue=="sent"){
             if(!PaneListEmail.getItems().contains(borderListEmail)){
                 PaneListEmail.getItems().add(borderListEmail);
             }
-        }else if(newVue=="sent" && model.getView()!="sent"){
-            if(!PaneListEmail.getItems().contains(borderListEmail)){
-                PaneListEmail.getItems().add(borderListEmail);
-            }
+            Platform.runLater(()-> model.setCurrentEmails());
         }
-        Platform.runLater(()-> {
-                    model.setCurrentEmails();
-                });
-        model.setView(newVue);
-        selectedEmail=null;
-        PaneListEmail.getItems().remove(borderTextEmail);
+        if(PaneListEmail.getItems().contains(borderTextEmail)) PaneListEmail.getItems().remove(borderTextEmail);
     }
 
 
@@ -154,30 +147,25 @@ public class ReadEmailController {
 
     @FXML
     protected void forwardEmail(){
-        mainController.showWriteEmail();
         alertWriting("forward");
     }
 
     @FXML
     public void onReplyButton() {
-        mainController.showWriteEmail();
         alertWriting("reply");
-
     }
 
     @FXML
     public void replyAllEmail() {
-        mainController.showWriteEmail();
         alertWriting("replyAll");
-
     }
 
     public void alertWriting(String action){
       if(model.isWriting()){
+          mainController.writeEmail("",null);
           mainController.loadAlert("C'è una bozza in attesa","Vuoi sovrascriverla?","ALERT", action);
       }else{
           mainController.writeEmail(action,selectedEmail);
-          model.setWriting(true);
       }
     }
 

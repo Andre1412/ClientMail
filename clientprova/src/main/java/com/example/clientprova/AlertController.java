@@ -44,9 +44,6 @@ public class AlertController extends Dialog<ButtonType> {
 
             noBtn.setOnAction(event->{
                 this.setResult(ButtonType.CLOSE);
-                if(!model.isWriting()) {
-                    model.setWriting(true);
-                }
                 close();
             });
 

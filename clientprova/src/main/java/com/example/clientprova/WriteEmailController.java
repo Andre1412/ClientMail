@@ -53,23 +53,30 @@ public class WriteEmailController {
     * action può assumere valore "forward", "reply", "replyall"
     * textOrSubject prende il testo della mail se action=="forward", altrimenti oggetto della mail
     * */
-    public void setMainController(MainController m, Client model, ClientController clientController, String action, Email mail){
+    public void setMainController(MainController m, Client model, ClientController clientController){
         this.mainController = m;
         this.model = model;
-        this.mail = mail;
         this.clientController = clientController;
         lblsenderAccount.textProperty().bind(model.emailAddressProperty());
+        lblTo.setPromptText("Invia a: ");
+        lblSubject.setPromptText("Oggetto");
+
+        lblTo.textProperty().addListener(((observableValue, oldV, newV) ->{ if(!model.isWriting() && newV.trim()!="")model.setWriting(true);}));
+        lblSubject.textProperty().addListener(((observableValue, oldV, newV) ->{ if(!model.isWriting() && newV.trim()!="")model.setWriting(true);}));
+        txtEmail.textProperty().addListener(((observableValue, oldV, newV) ->{ if(!model.isWriting() && newV.trim()!="")model.setWriting(true);}));
+    }
+
+
+    public void viewWriteEmail(String action, Email mail){
+        this.mail = mail;
         Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
         String strDate = dateFormat.format(date);
         StringProperty data = new SimpleStringProperty(strDate);
         lblData.textProperty().bind(data);
-        lblTo.setPromptText("Invia a: ");
-        lblSubject.setPromptText("Oggetto");
+
         setwriteEmail(action);
     }
-
-
 
 
     @FXML
@@ -97,9 +104,7 @@ public class WriteEmailController {
                     clientController.sendEmail(send,response->{
                         if(response.getStatus()=="OK"){
                             Platform.runLater(()-> {
-                                txtEmail.setText("");
-                                lblSubject.setText("");
-                                lblTo.setText("");
+                                clearWriteEmail();
                             });
                         }else {
                             Platform.runLater(() -> mainController.loadAlert("ERROR: Qualcosa è andato storto", response.getMsg(), "ERROR", ""));
@@ -107,7 +112,6 @@ public class WriteEmailController {
                         }
 
                     });
-                    model.setWriting(false);
                 }else {
                     lblTo.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
 /*                    Alert a = new Alert(Alert.AlertType.ERROR);
@@ -164,6 +168,7 @@ public class WriteEmailController {
                 lblSubject.setText(mail.getSubject());
                 lblSubject.setEditable(false);
                 lblTo.requestFocus();
+
                 break;
 
             case "reply":
@@ -172,6 +177,7 @@ public class WriteEmailController {
                 lblTo.setEditable(false);
                 lblSubject.setText("Re: " + mail.getSubject());
                 lblSubject.setEditable(false);
+                txtEmail.requestFocus();
                 break;
 
             case "replyAll":
@@ -186,11 +192,11 @@ public class WriteEmailController {
                 lblTo.setEditable(false);
                 lblSubject.setText("Re: " + mail.getSubject());
                 lblSubject.setEditable(false);
+                txtEmail.requestFocus();
                 break;
 
             case "clear":
                 clearWriteEmail();
-                model.setWriting(false);
                 break;
         }
 

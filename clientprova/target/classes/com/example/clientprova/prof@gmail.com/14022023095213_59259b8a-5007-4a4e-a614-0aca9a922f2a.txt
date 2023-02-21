@@ -1,1 +1,0 @@
-{"ID":"14022023095213_59259b8a-5007-4a4e-a614-0aca9a922f2a","dataSpedizione":"14-02-2023","sender":"prof@gmail.com","receivers":["studente@unito.it"],"text":"andre","subject":"prova con andre"}

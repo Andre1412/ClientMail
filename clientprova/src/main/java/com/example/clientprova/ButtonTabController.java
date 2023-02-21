@@ -4,13 +4,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.effect.Glow;
-import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import model.Client;
 
-public class ButtonTabController {
+public class ButtonTabController{
 
     @FXML
     public Button btnIncoming;
@@ -24,19 +22,23 @@ public class ButtonTabController {
     public Label numberEmails;
 
     private Client model;
-    MainController mainController;
+    private MainController mainController;
 
-    ClientController clientController;
 
-    public void setMainController(MainController m, Client model, ClientController clientController){
+    public void setMainController(MainController m, Client model){
         this.mainController = m;
         this.model = model;
-        this.clientController = clientController;
+
+        //listener nuove mail
         model.newEmailsProperty().addListener(((observableValue, oldValue, newValue) -> {
             newEmails.setFill(newValue.equals(0) ? Color.TRANSPARENT : Color.BLUE);
             numberEmails.setText(newValue.equals(0) ? "" : newValue.toString());
         }));
+
+        //inizialmente incoming selezionato
         btnIncoming.setStyle("-fx-background-color: #57598C");
+
+        //listener view di model che fa cambiare le viste
         this.model.getViewProperty().addListener(((observableValue, oldV, newV) ->{
             switch (newV){
                 case "incoming":
@@ -56,24 +58,26 @@ public class ButtonTabController {
 
     @FXML
     public void showIncomingEmail(ActionEvent event){
-        mainController.selectEmail("incoming");
+        /*mainController.selectNewView("incoming");*/
+        model.setView("incoming");
     }
 
     @FXML
     public void showSentEmail(ActionEvent event){
-        mainController.selectEmail("sent");
+        /*mainController.selectNewView("sent");*/
+        model.setView("sent");
     }
 
     @FXML
     public void showWriteEmail(ActionEvent event){
-        mainController.selectEmail("write");
+        /*mainController.selectNewView("write");*/
+        model.setView("write");
     }
 
     public void selectIncomingEmail() {
         btnIncoming.setStyle("-fx-background-color: #57598C");
         btnSent.setStyle("-fx-background-color: none");
         btnWrite.setStyle("-fx-background-color: none");
-
     }
 
 
@@ -81,13 +85,11 @@ public class ButtonTabController {
         btnSent.setStyle("-fx-background-color: #57598C");
         btnIncoming.setStyle("-fx-background-color: none");
         btnWrite.setStyle("-fx-background-color: none");
-        mainController.selectEmail("sent");
     }
 
     public void selectWriteEmail() {
         btnWrite.setStyle("-fx-background-color: #57598C");
         btnSent.setStyle("-fx-background-color: none");
         btnIncoming.setStyle("-fx-background-color: none");
-        mainController.writeEmail("",null);
     }
 }

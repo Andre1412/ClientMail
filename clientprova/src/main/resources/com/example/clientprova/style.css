@@ -11,6 +11,10 @@ Label{
     -fx-font-weight: 700;
 }
 
+Button{
+    -fx-cursor: hand;
+}
+
 GridPane{
     -fx-background-color: #8082B0;
 }
