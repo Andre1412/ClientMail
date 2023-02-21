@@ -1,1 +1,0 @@
-{"ID":"12022023174951_14912915-2768-44b2-a30f-a652da1b5431","dataSpedizione":"12-02-2023","sender":"tutor@unito.it","receivers":["studente@unito.it"],"text":"vg","subject":"prova"}

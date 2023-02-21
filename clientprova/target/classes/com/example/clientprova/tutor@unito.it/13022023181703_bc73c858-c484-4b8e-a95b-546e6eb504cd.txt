@@ -1,1 +1,0 @@
-{"ID":"13022023181703_bc73c858-c484-4b8e-a95b-546e6eb504cd","dataSpedizione":"13-02-2023","sender":"tutor@unito.it","receivers":["studente@unito.it"],"text":"Q\t","subject":"QUOTO"}
