@@ -182,7 +182,7 @@ public class Client {
 
     public void searchEmail(String text) {
         ArrayList<Email> emails = new ArrayList<>();
-        for (Email e : (getView().equals("incoming")?inboxContent:sentContent)) {
+        for (Email e : (getView().equals("incoming")?inboxContent: getView().equals("sent")?sentContent:deletedContent)) {
             if (e.getSubject().toLowerCase().contains(text.toLowerCase()) || e.getText().toLowerCase().contains(text.toLowerCase())) {
                 emails.add(e);
             }
