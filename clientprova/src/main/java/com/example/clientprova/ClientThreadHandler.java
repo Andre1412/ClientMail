@@ -107,18 +107,38 @@ public class ClientThreadHandler implements Runnable {
 
                         break;
                     case "delete":
-                        String id=inStream.readUTF();
-                        File emailToDelete=new File("clientprova/src/main/resources/com/example/clientprova/"+ clientName+"/"+id+".txt");
-
-                        if (emailToDelete.delete()) {
+                        try {
+                            Email deletedEmail = (Email) inStream.readObject();
+                            File emailToDelete = new File("clientprova/src/main/resources/com/example/clientprova/" + clientName + "/" + deletedEmail.getID() + ".txt");
+                            FileWriter f;
+                            f = new FileWriter(emailToDelete, false);
+                            f.write(new Gson().toJson(deletedEmail));
+                            f.close();
+                            Platform.runLater(() -> serverLog.setLastMessage("Eliminata email " + deletedEmail.getID()));
                             outStream.writeUTF("Ok");
                             outStream.flush();
-                            Platform.runLater(()->serverLog.setLastMessage("Eliminata email " + id));
-                        } else {
-                            Platform.runLater(()->serverLog.setLastMessage("ERROR: Errore eliminazione mail"+ id));
+                        }catch (IOException e){
+                            Platform.runLater(()->serverLog.setLastMessage("ERROR: Errore eliminazione mail client"+ clientName));
                             outStream.writeUTF("ERROR: Failed to delete the file");
                             outStream.flush();
-//                            File resource = new File("clientprova/src/main/resources/com/example/clientprova/"+clientName);
+                        }
+                        break;
+                    case "permanentDelete":
+                        try {
+                            String mailId = inStream.readUTF();
+                            File emailToDelete = new File("clientprova/src/main/resources/com/example/clientprova/" + clientName + "/" + mailId + ".txt");
+                            if(emailToDelete.delete()){
+                                Platform.runLater(() -> serverLog.setLastMessage("Eliminata email " + mailId));
+                                outStream.writeUTF("Ok");
+                            }else{
+                                outStream.writeUTF("ERROR: Failed to delete the file");
+                            }
+                            outStream.flush();
+
+                        }catch (IOException e){
+                            Platform.runLater(()->serverLog.setLastMessage("ERROR: Errore eliminazione mail client"+ clientName));
+                            outStream.writeUTF("ERROR: Failed to delete the file");
+                            outStream.flush();
                         }
                         break;
                 }
@@ -138,8 +158,11 @@ public class ClientThreadHandler implements Runnable {
     }
     private void receive(){
         try {
+                boolean firstConn = (boolean) inStream.readBoolean();
                 String dateLastCheck = (String) inStream.readUTF();
-                ArrayList<Email> emailList=new ArrayList<>();
+            System.out.println(dateLastCheck);
+
+            ArrayList<Email> emailList=new ArrayList<>();
                 Platform.runLater(()-> serverLog.setLastMessage("Utente " + clientName + (dateLastCheck=="null"? " ha effettuato l'accesso, invio mail": " connesso, ricerca nuove mail")));
 
                 //Cerco directory del client
@@ -182,27 +205,41 @@ public class ClientThreadHandler implements Runnable {
                         }
                     }
                 }
-                //Popolo array di mail ricevute e inviate
+                //Popolo array di mail eliminate
+                ArrayList<Email> clientDeletedMail = new ArrayList<>();
+                emailList.removeIf(eD -> {
+                    if(eD.isDeleted()) {
+                        clientDeletedMail.add(eD);
+                    }
+                    return eD.isDeleted();
+                });
+
+                //Popolo array di mail ricevute e inviate (escluse quelle eliminate)
                 ArrayList<Email> clientReceivedMail = new ArrayList<>();
                 emailList.forEach(eR -> {
                     if (eR.getReceivers().contains(clientName)) {
                         clientReceivedMail.add(eR);
                     }
                 });
-                //invio mail inviate solo se è la prima connessione
-                if(dateLastCheck.equals("null")) {
+
+
+            //invio mail inviate ed eliminate solo se è la prima connessione
+                if(firstConn) {
                     ArrayList<Email> clientSentMail = new ArrayList<>();
                     emailList.forEach(eS -> {
                         if (eS.getSender().equals(clientName)) {
                             clientSentMail.add(eS);
                         }
                     });
+                    outStream.writeObject(clientDeletedMail);
+                    Platform.runLater(()-> serverLog.setLastMessage("Utente " + clientName + (clientDeletedMail.size()>0? " riceve mail eliminate: " + printMailArray(clientDeletedMail): " nessuna mail eliminata")));
                     outStream.writeObject(clientSentMail);
                     Platform.runLater(()-> serverLog.setLastMessage("Utente " + clientName + (clientSentMail.size()>0? " riceve mail inviate: " + printMailArray(clientSentMail): " nessuna mail inviata")));
                 }
+            outStream.writeObject(clientReceivedMail);
+            Platform.runLater(()-> serverLog.setLastMessage("Utente " + clientName + (clientReceivedMail.size()>0? " riceve mail in arrivo: " + printMailArray(clientReceivedMail): " nessuna mail ricevuta")));
 
-                outStream.writeObject(clientReceivedMail);
-                Platform.runLater(()-> serverLog.setLastMessage("Utente " + clientName + (clientReceivedMail.size()>0? " riceve mail in arrivo: " + printMailArray(clientReceivedMail): " nessuna mail ricevuta")));
+
             outStream.flush();
 
             } catch (IOException e) {

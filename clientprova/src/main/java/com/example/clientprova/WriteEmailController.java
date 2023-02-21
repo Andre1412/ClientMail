@@ -1,7 +1,6 @@
 package com.example.clientprova;
 
 import javafx.application.Platform;
-import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
@@ -10,23 +9,16 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.text.TextFlow;
 import model.Client;
 import model.Email;
 
 
-import java.io.File;
-import java.io.IOException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
-import java.util.concurrent.Callable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,6 +41,7 @@ public class WriteEmailController {
     MainController mainController;
     ClientController clientController;
     StringProperty receivers;
+
     /*
     * action può assumere valore "forward", "reply", "replyall"
     * textOrSubject prende il testo della mail se action=="forward", altrimenti oggetto della mail
@@ -88,6 +81,7 @@ public class WriteEmailController {
         String uniqueID = date + "_" + UUID.randomUUID();
         if((txtEmail.getText() != "" && lblSubject.getText()!="") || checkBodyEmail){
             ArrayList<String> receivers = getReceivers();
+
             if (receivers.size() > 0) {
                 Pattern patternMail = Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", Pattern.CASE_INSENSITIVE);
                 Matcher matcher;
@@ -100,7 +94,7 @@ public class WriteEmailController {
                 if(errorReceiver==""){
 
                 lblTo.setStyle("-fx-border-color: none;");
-                    Email send = new Email(uniqueID, lblData.getText(), lblsenderAccount.getText(), receivers, lblSubject.getText(), txtEmail.getText(), true);
+                    Email send = new Email(uniqueID, lblData.getText(), lblsenderAccount.getText(), receivers, lblSubject.getText(), txtEmail.getText(), true,false);
                     clientController.sendEmail(send,response->{
                         if(response.getStatus()=="OK"){
                             Platform.runLater(()-> {

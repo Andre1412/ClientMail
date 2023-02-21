@@ -1,1 +1,0 @@
-{"ID":"17022023183246_7fb7bfb9-bf79-402e-8a18-a2ae62478348","dataSpedizione":"17-02-2023","sender":"prof@gmail.com","receivers":["tutor@unito.it"],"text":"Buona sera","subject":"Re: Prova list","toRead":false}

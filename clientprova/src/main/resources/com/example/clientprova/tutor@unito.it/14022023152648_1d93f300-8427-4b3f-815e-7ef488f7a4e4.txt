@@ -1,1 +1,0 @@
-{"ID":"14022023152648_1d93f300-8427-4b3f-815e-7ef488f7a4e4","dataSpedizione":"14-02-2023","sender":"tutor@unito.it","receivers":["studente@unito.it"],"text":"v","subject":"Prova pomeriggio"}

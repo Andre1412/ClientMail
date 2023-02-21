@@ -20,6 +20,7 @@ public class ButtonTabController{
     public Circle newEmails;
     @FXML
     public Label numberEmails;
+    public Button btnGarbage;
 
     private Client model;
     private MainController mainController;
@@ -50,6 +51,9 @@ public class ButtonTabController{
                 case "write":
                     selectWriteEmail();
                 break;
+                case "garbage":
+                    selectDeletedEmail();
+                break;
 
             }
         } ));
@@ -58,26 +62,29 @@ public class ButtonTabController{
 
     @FXML
     public void showIncomingEmail(ActionEvent event){
-        /*mainController.selectNewView("incoming");*/
         model.setView("incoming");
     }
 
     @FXML
     public void showSentEmail(ActionEvent event){
-        /*mainController.selectNewView("sent");*/
         model.setView("sent");
     }
 
     @FXML
     public void showWriteEmail(ActionEvent event){
-        /*mainController.selectNewView("write");*/
         model.setView("write");
+    }
+    @FXML
+    public void showDeletedEmail(ActionEvent event){
+        model.setView("garbage");
     }
 
     public void selectIncomingEmail() {
         btnIncoming.setStyle("-fx-background-color: #57598C");
         btnSent.setStyle("-fx-background-color: none");
         btnWrite.setStyle("-fx-background-color: none");
+        btnGarbage.setStyle("-fx-background-color: none");
+
     }
 
 
@@ -85,11 +92,21 @@ public class ButtonTabController{
         btnSent.setStyle("-fx-background-color: #57598C");
         btnIncoming.setStyle("-fx-background-color: none");
         btnWrite.setStyle("-fx-background-color: none");
+        btnGarbage.setStyle("-fx-background-color: none");
     }
 
     public void selectWriteEmail() {
         btnWrite.setStyle("-fx-background-color: #57598C");
         btnSent.setStyle("-fx-background-color: none");
         btnIncoming.setStyle("-fx-background-color: none");
+        btnGarbage.setStyle("-fx-background-color: none");
+    }
+
+
+    public void selectDeletedEmail() {
+        btnGarbage.setStyle("-fx-background-color: #57598C");
+        btnSent.setStyle("-fx-background-color: none");
+        btnIncoming.setStyle("-fx-background-color: none");
+        btnWrite.setStyle("-fx-background-color: none");
     }
 }

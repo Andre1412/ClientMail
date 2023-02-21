@@ -15,6 +15,7 @@ public class Email implements Serializable, Comparable<Email>{
     private String text;
     private String subject;
     private boolean toRead;
+    private boolean deleted;
 
     /**
      * @return stringa composta dagli indirizzi e-mail del mittente più destinatari
@@ -29,13 +30,14 @@ public class Email implements Serializable, Comparable<Email>{
      * @param subject    oggetto della mail
      * @param text       testo della mail
      **/
-    public Email(String ID, String dataSpedizione, String sender, List<String> receivers, String subject, String text, boolean toRead) {
+    public Email(String ID, String dataSpedizione, String sender, List<String> receivers, String subject, String text, boolean toRead, boolean deleted) {
         this.ID=ID;
         this.dataSpedizione=dataSpedizione;
         this.sender = sender;
         this.subject = subject;
         this.text = text;
         this.toRead=toRead;
+        this.deleted=deleted;
         if(receivers.size()==1 && receivers.contains("")) {
             this.receivers = new ArrayList<>();
         }
@@ -51,6 +53,18 @@ public class Email implements Serializable, Comparable<Email>{
 
     public String getID() {
         return ID;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted=deleted;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public boolean deletedProperty() {
+        return deleted;
     }
 
     public boolean toReadProperty() {
@@ -110,5 +124,15 @@ public class Email implements Serializable, Comparable<Email>{
                 String.join("  -  ", List.of(this.subject,  this.text.length()>10?this.text.replace("\n","")
                         .substring(0, 10) + "...": this.text.replace("\n","")));
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj!=null && obj.getClass()==this.getClass()){
+            Email mail= (Email)obj;
+            return mail.getID().equals(this.ID);
+        }
+        return false;
+    }
+
 }
 
