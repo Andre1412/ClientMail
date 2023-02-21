@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -40,6 +41,8 @@ public class ReadEmailController {
     public Button btnInoltra;
     @FXML
     public Circle status;
+    @FXML
+    public TextField searchTxt;
 
     SimpleBooleanProperty server_status;
 
@@ -169,4 +172,11 @@ public class ReadEmailController {
       }
     }
 
+    public void searchEmail(ActionEvent actionEvent) {
+        if(searchTxt.getText().isEmpty()){
+            model.setCurrentEmails();
+        }else{
+            model.searchEmail(searchTxt.getText());
+        }
+    }
 }

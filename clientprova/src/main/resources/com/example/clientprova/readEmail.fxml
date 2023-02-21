@@ -6,6 +6,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -20,29 +21,51 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane fx:id="PaneListEmail" dividerPositions="0.3396" prefHeight="600.0" prefWidth="840.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.clientprova.ReadEmailController">
+<SplitPane fx:id="PaneListEmail" dividerPositions="0.3396" prefHeight="600.0" prefWidth="840.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.clientprova.ReadEmailController">
     <items>
       <VBox fx:id="borderListEmail" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: none;">
          <children>
-            <HBox alignment="CENTER" minHeight="150.0" spacing="10.0">
+            <VBox>
                <children>
-                  <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="50.0">
+                  <HBox alignment="CENTER" minHeight="107.0" spacing="10.0">
                      <children>
-                              <ImageView fx:id="userImage" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/account_icon.png" />
-                           </image>
-                        </ImageView>        
-                        <Circle fx:id="status" fill="RED" radius="6.0" stroke="GREY" strokeType="INSIDE" StackPane.alignment="BOTTOM_RIGHT" />
+                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" prefWidth="50.0">
+                           <children>
+                                    <ImageView fx:id="userImage" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/account_icon.png" />
+                                 </image>
+                              </ImageView>        
+                              <Circle fx:id="status" fill="RED" radius="6.0" stroke="GREY" strokeType="INSIDE" StackPane.alignment="BOTTOM_RIGHT" />
+                           </children>
+                        </StackPane>
+                              <Label fx:id="username" text="NomeUtente">
+                                  <font>
+                                      <Font size="15.0" />
+                                  </font>
+                              </Label>
                      </children>
-                  </StackPane>
-                        <Label fx:id="username" text="NomeUtente">
-                            <font>
-                                <Font size="15.0" />
-                            </font>
-                        </Label>
+                  </HBox>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <TextField fx:id="searchTxt">
+                           <HBox.margin>
+                              <Insets bottom="10.0" top="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <Button fx:id="searchEmail" alignment="CENTER" onAction="#searchEmail" defaultButton="true" mnemonicParsing="false" text="Cerca" textFill="WHITE">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/search.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </HBox>
                </children>
-            </HBox>
+            </VBox>
             <AnchorPane maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                <children>
                       <ListView fx:id="listEmail" fixedCellSize="70.0" maxHeight="1.7976931348623157E308" minWidth="-Infinity" prefWidth="282.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />

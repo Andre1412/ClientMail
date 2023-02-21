@@ -169,4 +169,14 @@ public class Client {
     public String getLastEmailFormattedDate(){
         return inboxContent.size()>0?inboxContent.get(0).getID().split("_")[0]:"null";
     }
+
+    public void searchEmail(String text) {
+        ArrayList<Email> emails = new ArrayList<>();
+        for (Email e : (getView().equals("incoming")?inboxContent:sentContent)) {
+            if (e.getSubject().toLowerCase().contains(text.toLowerCase()) || e.getText().toLowerCase().contains(text.toLowerCase())) {
+                emails.add(e);
+            }
+        }
+        currentEmails.setAll(emails);
+    }
 }
