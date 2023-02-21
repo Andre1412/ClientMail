@@ -54,9 +54,7 @@ public class ClientController {
 
 
             scheduler.scheduleAtFixedRate(() ->{
-                if(firstConn) {
-                    firstConn = !tryCommunication(host, port, firstConn);
-                }else tryCommunication(host, port, firstConn);
+                    tryCommunication(host, port);
             },0, 5, TimeUnit.SECONDS);
             /*if(success) {
                 //tryConnect(host, port);
@@ -69,33 +67,40 @@ public class ClientController {
 
 
 
-    private boolean tryCommunication(String host, int port, boolean firstTime){
+    private void tryCommunication(String host, int port){
         try {
+            System.out.println("connesso");
             connectToServer(host, port);
             outputStream.writeUTF("receive");
             outputStream.writeUTF(client.getEmailAddress());
-            outputStream.writeUTF(firstTime?"null":client.getLastEmailFormattedDate());
+            outputStream.writeBoolean(firstConn);
+            outputStream.writeUTF(client.getLastEmailFormattedDate());
             outputStream.flush();
             //Se è la prima connessione aspetto anche mail inviate
-            if(firstTime) {
+            if(firstConn) {
+                //Attendo mail eliminate
+                ArrayList<Email> deletedEmails = (ArrayList<Email>)inputStream.readObject();
                 ArrayList<Email> sentEmails = (ArrayList<Email>) inputStream.readObject();
-                Platform.runLater(()->
-                        client.setSentContent(sentEmails));
+                System.out.println("Eliminate: "+deletedEmails);
+                System.out.println("Inviate: "+sentEmails);
+                Platform.runLater(()->{
+                        client.setSentContent(sentEmails);
+                        client.setDeletedContent(deletedEmails);});
             }
             //Attendo mail in arrivo
             ArrayList<Email> inboxEmails = (ArrayList<Email>)inputStream.readObject();
 
+            System.out.println("Ricevute: "+inboxEmails);
             Platform.runLater(()->
                 client.setInboxContent(inboxEmails));
 
-            return true;
+            if(firstConn)firstConn=false;
+            System.out.println("fine");
         } catch (IOException e) {
             System.out.println("Connessione fallita");
             this.serverStatus.setValue(false);
-            return false;
         } catch (ClassNotFoundException e) {
             System.out.println("Errori nella lettura dei dati");
-            return false;
         }
         finally {
             closeConnections();
@@ -176,14 +181,14 @@ public class ClientController {
             }
         });
     }
-    public void deleteEmail(String email, ResponseFunction response){
+    public void deleteEmail(Email email, ResponseFunction response){
         threadPool.execute(()->{
             try{
                 this.connectToServer("localhost", 8085);
                 //this.serverStatus.setValue(true);
                 outputStream.writeUTF("delete");
                 outputStream.writeUTF(client.getEmailAddress());
-                outputStream.writeUTF(email);
+                outputStream.writeObject(new Email(email.getID(),email.getDataSpedizione(),email.getSender(),email.getReceivers(),email.getSubject(),email.getText(),email.toReadProperty(),true));
                 outputStream.flush();
                 String feedback=inputStream.readUTF();
 

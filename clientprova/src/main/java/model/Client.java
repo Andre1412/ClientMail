@@ -18,6 +18,7 @@ public class Client {
 
     private final ObservableList<Email> inboxContent;
     private final ObservableList<Email> sentContent;
+    private final ObservableList<Email> deletedContent;
     private final ObservableList<Email> currentEmails;
     private final StringProperty emailAddress;
     private SimpleStringProperty view;
@@ -50,6 +51,7 @@ public class Client {
     public Client(String emailAddress) {
         this.inboxContent = FXCollections.observableArrayList(new ArrayList<>());
         this.sentContent = FXCollections.observableArrayList(new ArrayList<>());
+        this.deletedContent = FXCollections.observableArrayList(new ArrayList<>());
         this.currentEmails = FXCollections.observableArrayList(new ArrayList<>());
         currentEmails.setAll(inboxContent);
         this.emailAddress = new SimpleStringProperty(emailAddress);
@@ -129,7 +131,7 @@ public class Client {
             int i=0;
             for (Email e : sent) {
                 if(e.getReceivers().contains(e.getSender())){
-                    sent.set(i,new Email(e.getID(),e.getDataSpedizione(),e.getSender(),e.getReceivers(),e.getSubject(),e.getText(),false));
+                    sent.set(i,new Email(e.getID(),e.getDataSpedizione(),e.getSender(),e.getReceivers(),e.getSubject(),e.getText(),false,e.isDeleted()));
                 }else {
                     e.setToReadProperty(false);
                 }
@@ -141,6 +143,17 @@ public class Client {
                 setCurrentEmails();
         }
 
+    }
+    public void setDeletedContent(ArrayList<Email> deleted){
+        if(deleted.size()>0) {
+            Collections.sort(deleted, Collections.reverseOrder());
+            for (Email e : deleted) {
+                sentContent.remove(e);
+                inboxContent.remove(e);
+            }
+            this.deletedContent.addAll(0,deleted);
+            setCurrentEmails();
+        }
     }
 
     public String getEmailAddress() {
@@ -161,7 +174,7 @@ public class Client {
 
     public void setCurrentEmails(){
         currentEmails.clear();
-        currentEmails.addAll(view.getValue().equals("incoming")? inboxContent:sentContent);
+        currentEmails.addAll(view.getValue().equals("incoming")? inboxContent: view.getValue().equals("sent")?sentContent: deletedContent);
     }
     public ObservableList<Email> getCurrentEmails(){
         return currentEmails;

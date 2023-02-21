@@ -9,9 +9,8 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
-<?import javafx.scene.text.Font?>
 
-<VBox fx:id="buttonTab" prefHeight="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.clientprova.ButtonTabController">
+<VBox fx:id="buttonTab" prefHeight="600.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.clientprova.ButtonTabController">
       <Button fx:id="btnIncoming" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showIncomingEmail">
       <graphic>
           <VBox alignment="CENTER" prefHeight="60.0" prefWidth="50.0">
@@ -53,6 +52,23 @@
           </VBox>
       </graphic>
       </Button>
+   <Button fx:id="btnGarbage" alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="79.0" mnemonicParsing="false" onAction="#showDeletedEmail">
+      <graphic>
+         <VBox alignment="CENTER" prefHeight="60.0" prefWidth="50.0">
+            <children>
+               <ImageView accessibleRole="BUTTON" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                  <viewport>
+                     <Rectangle2D />
+                  </viewport>
+                  <image>
+                     <Image url="@images/garbage.png" />
+                  </image>
+               </ImageView>
+               <Label text="Cestino" />
+            </children>
+         </VBox>
+      </graphic>
+   </Button>
       <Button fx:id="btnWrite" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showWriteEmail">
       <graphic>
           <VBox alignment="CENTER" prefHeight="60.0" prefWidth="50.0">

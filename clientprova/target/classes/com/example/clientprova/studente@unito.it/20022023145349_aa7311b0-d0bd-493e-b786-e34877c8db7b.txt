@@ -1,1 +1,0 @@
-{"ID":"20022023145349_aa7311b0-d0bd-493e-b786-e34877c8db7b","dataSpedizione":"20-02-2023 14:53","sender":"studente@unito.it","receivers":["studente@unito.it"],"text":"","subject":"ti prego funziona","toRead":false}

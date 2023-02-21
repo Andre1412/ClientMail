@@ -96,7 +96,7 @@
                      </rowConstraints>
                      <children>
                               <Label fx:id="lblData" alignment="TOP_RIGHT" contentDisplay="RIGHT" text="Data" />
-                        <HBox alignment="TOP_RIGHT" GridPane.columnIndex="1">
+                        <HBox fx:id="interactionButtons" alignment="TOP_RIGHT" GridPane.columnIndex="1">
                            <children>
                               <Button fx:id="btnRispondi" mnemonicParsing="false" onAction="#onReplyButton">
                                  <graphic>

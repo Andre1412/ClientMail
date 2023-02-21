@@ -8,12 +8,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import model.Client;
 import model.Email;
+
+import java.util.ArrayList;
 
 public class ReadEmailController {
     @FXML
@@ -40,6 +43,8 @@ public class ReadEmailController {
     public Button btnInoltra;
     @FXML
     public Circle status;
+    @FXML
+    public HBox interactionButtons;
 
     SimpleBooleanProperty server_status;
 
@@ -64,7 +69,7 @@ public class ReadEmailController {
             listEmail.itemsProperty().setValue((ObservableList<Email>) value.getList());
         });
 
-        model.getViewProperty().addListener(((observableValue, oldV, newV) -> changeView(newV) ));
+        model.getViewProperty().addListener(((observableValue, oldV, newV) -> changeView(newV)));
         listEmail.setCellFactory((listView)->new EmailCell(model, listEmail,stage));
         listEmail.setOnMouseClicked(this::showSelectedEmail);
         username.textProperty().bind(model.emailAddressProperty());
@@ -87,6 +92,8 @@ public class ReadEmailController {
         if(listEmail.getSelectionModel().getSelectedItem()!=null) {
             if (selectedEmail == null || !PaneListEmail.getItems().contains(borderTextEmail)) {
                 PaneListEmail.getItems().add(borderTextEmail);
+                if(model.getView()=="garbage")hideInteraction(true);
+                else hideInteraction(false);
             }
             Email email = listEmail.getSelectionModel().getSelectedItem();
             if(email.toReadProperty()){
@@ -112,9 +119,12 @@ public class ReadEmailController {
     public void closePanel(){
         PaneListEmail.getItems().remove(borderTextEmail);
     }
+    public void hideInteraction(boolean hide){
+        this.interactionButtons.setVisible(!hide);
+    }
 
-    public void changeView(String newVue){
-        if(newVue=="incoming" || newVue=="sent"){
+    public void changeView(String newView){
+        if(newView=="incoming" || newView=="sent" || newView=="garbage"){
             if(!PaneListEmail.getItems().contains(borderListEmail)){
                 PaneListEmail.getItems().add(borderListEmail);
             }
@@ -126,18 +136,17 @@ public class ReadEmailController {
 
     @FXML
     protected void onDeleteButtonClick() {
-        clientController.deleteEmail(selectedEmail.getID(),response->{
-
+        clientController.deleteEmail(selectedEmail,response->{
             if(response.getStatus()=="ERROR"){
                 Platform.runLater(()->new AlertController("Qualcosa è andato storto",response.getMsg(),"ERROR", mainController.writeEmail, ()->null));
             }else {
+                selectedEmail.setDeleted(true);
                 Platform.runLater(()-> {
-                    if(model.getView()=="incoming")
-                        model.removeInboxContent(selectedEmail);
-                    else
-                        model.removeSentContent(selectedEmail);
-
+                    ArrayList<Email> deletedArray=new ArrayList<>();
+                    deletedArray.add(selectedEmail);
                     selectedEmail = null;
+                    model.setDeletedContent(deletedArray);
+
                     PaneListEmail.getItems().remove(borderTextEmail);
                 });
             }
