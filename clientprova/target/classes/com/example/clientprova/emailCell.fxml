@@ -26,9 +26,9 @@
          <Font name="Alexandria Regular" size="10.0" />
       </font>
    </Label>
-   <Button fx:id="cellDeleteBtn" mnemonicParsing="false" style="-fx-background-color: transparent;">
+   <Button fx:id="cellDeleteBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: transparent;">
       <graphic>
-         <ImageView  fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@images/garbage-col.png" />
             </image>
@@ -37,7 +37,7 @@
    </Button>
 </children>
 <padding>
-   <Insets left="10.0" right="10.0" />
+   <Insets left="10.0" />
 </padding>
 </HBox>
    </graphic>
