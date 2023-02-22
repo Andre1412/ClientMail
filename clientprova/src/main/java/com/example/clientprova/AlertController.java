@@ -37,7 +37,7 @@ public class AlertController extends Dialog<ButtonType> {
             DialogPane dialogPane = loader.load();
             initOwner(owner);
             initModality(Modality.WINDOW_MODAL);
-            initStyle(StageStyle.TRANSPARENT);
+            //initStyle(StageStyle.TRANSPARENT);
 
 
             getDialogPane().getScene().setOnMousePressed(event -> {

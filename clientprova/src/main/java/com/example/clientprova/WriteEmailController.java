@@ -85,7 +85,7 @@ public class WriteEmailController {
         String date=simpleDateFormat.format(new Date());
 
         String uniqueID = date + "_" + UUID.randomUUID();
-        if((txtEmail.getText() != "" && lblSubject.getText()!="") || checkBodyEmail){
+        if(txtEmail.getText() != ""){
             ArrayList<String> receivers = getReceivers();
 
             if (receivers.size() > 0) {
@@ -98,40 +98,35 @@ public class WriteEmailController {
                 }
 
                 if(errorReceiver==""){
+                    lblTo.setStyle("-fx-border-color: none;");
+                        Email send = new Email(uniqueID, lblData.getText(), lblsenderAccount.getText(), receivers, lblSubject.getText(), txtEmail.getText(), true,false);
+                        clientController.sendEmail(send,response->{
+                            if(response.getStatus()=="OK"){
+                                Platform.runLater(()-> {
+                                    clearWriteEmail();
+                                });
+                            }else {
+                                Platform.runLater(() -> mainController.loadAlert("ERROR: Qualcosa è andato storto", response.getMsg(), "ERROR", ""));
+                                if(response.getMsg().contains("non esiste")) lblTo.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                            }
 
-                lblTo.setStyle("-fx-border-color: none;");
-                    Email send = new Email(uniqueID, lblData.getText(), lblsenderAccount.getText(), receivers, lblSubject.getText(), txtEmail.getText(), true,false);
-                    clientController.sendEmail(send,response->{
-                        if(response.getStatus()=="OK"){
-                            Platform.runLater(()-> {
-                                clearWriteEmail();
-                            });
-                        }else {
-                            Platform.runLater(() -> mainController.loadAlert("ERROR: Qualcosa è andato storto", response.getMsg(), "ERROR", ""));
-                            if(response.getMsg().contains("non esiste")) lblTo.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-                        }
-
-                    });
+                        });
                 }else {
                     lblTo.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-/*                    Alert a = new Alert(Alert.AlertType.ERROR);
-                    a.setContentText("Receiver" + errorReceiver + " errato/i");
-                    a.show();*/
                     new AlertController(mainController.stage,"ERROR","Receiver" + errorReceiver + " errato/i","ERROR",this,()->null ).showAndWait();
                 }
             } else {
                 lblTo.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
                 Alert a = new Alert(Alert.AlertType.ERROR);
                 a.setContentText("Aggiungi almeno un destinatario");
+                a.setTitle("Inserisci destinatario");
                 a.show();
             }
         } else {
-            Alert a = new Alert(Alert.AlertType.INFORMATION);
-            a.setContentText("Stai scordando di scrivere qualcosa");
-            a.setTitle("Errori nella scrittura dell'email");
-            a.setHeaderText("Errori email");
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setContentText("Non puoi inviare una mail vuota");
+            a.setHeaderText("Errore scrittura email");
             a.show();
-            checkBodyEmail = true;
         }
     }
     private ArrayList<String> getReceivers(){

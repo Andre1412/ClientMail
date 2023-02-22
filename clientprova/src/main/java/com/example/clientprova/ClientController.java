@@ -120,11 +120,11 @@ public class ClientController {
     }
 
     private void connectToServer(String host, int port) throws IOException {
-            socket = new Socket(host, port);
-            outputStream = new ObjectOutputStream(socket.getOutputStream());
-            outputStream.flush();
-            inputStream = new ObjectInputStream(socket.getInputStream());
-            this.serverStatus.setValue(true);
+        socket = new Socket(host, port);
+        outputStream = new ObjectOutputStream(socket.getOutputStream());
+        outputStream.flush();
+        inputStream = new ObjectInputStream(socket.getInputStream());
+        this.serverStatus.setValue(true);
     }
 
     public interface ResponseFunction {

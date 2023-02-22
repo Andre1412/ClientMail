@@ -158,84 +158,84 @@ public class ClientThreadHandler implements Runnable {
     }
     private void receive(){
         try {
-                boolean firstConn = (boolean) inStream.readBoolean();
-                String dateLastCheck = (String) inStream.readUTF();
+            boolean firstConn = (boolean) inStream.readBoolean();
+            String dateLastCheck = (String) inStream.readUTF();
             System.out.println(dateLastCheck);
 
             ArrayList<Email> emailList=new ArrayList<>();
-                Platform.runLater(()-> serverLog.setLastMessage("Utente " + clientName + (dateLastCheck=="null"? " ha effettuato l'accesso, invio mail": " connesso, ricerca nuove mail")));
+            Platform.runLater(()-> serverLog.setLastMessage("Utente " + clientName + (dateLastCheck=="null"? " ha effettuato l'accesso, invio mail": " connesso, ricerca nuove mail")));
 
-                //Cerco directory del client
-                File resource = new File("clientprova/src/main/resources/com/example/clientprova/"+clientName);
+            //Cerco directory del client
+            File resource = new File("clientprova/src/main/resources/com/example/clientprova/"+clientName);
 
-                //Se non c'è directory invio mex di errore
-                if (!resource.exists()) {
-                    resource.mkdir();
-                } else {
-                    //Se c'era cerco se ci sono file interni
-                    ArrayList<File> directoryListing = new ArrayList<>(Arrays.asList(resource.listFiles()));
-                    if (directoryListing != null) {
-                        if(!dateLastCheck.equals("null")) {
-                            directoryListing.removeIf((f)-> {
-                                        String fileDate = f.getName().split("_")[0];
-                                        return fileDate.compareTo(dateLastCheck) <= 0;
-                                    }
-                            );
+            //Se non c'è directory invio mex di errore
+            if (!resource.exists()) {
+                resource.mkdir();
+            } else {
+                //Se c'era cerco se ci sono file interni
+                ArrayList<File> directoryListing = new ArrayList<>(Arrays.asList(resource.listFiles()));
+                if (directoryListing != null) {
+                    if(!dateLastCheck.equals("null")) {
+                        directoryListing.removeIf((f)-> {
+                                    String fileDate = f.getName().split("_")[0];
+                                    return fileDate.compareTo(dateLastCheck) <= 0;
+                                }
+                        );
+                    }
+                    //se data non è nulla tolgo dalla lista dei file quelli con data <=alla data inviata
+                    //leggo mail dal file e la inserisco in array emailList
+                    BufferedReader reader;
+                    StringBuilder sb;
+                    for (File child : directoryListing) {
+                        reader = new BufferedReader(new FileReader(child.getPath()));
+                        String line = reader.readLine();
+                        sb = new StringBuilder();
+                        while (line != null) {
+                            sb.append(line);
+                            sb.append("\n");
+                            line = reader.readLine();
                         }
-                        //se data non è nulla tolgo dalla lista dei file quelli con data <=alla data inviata
-                        //leggo mail dal file e la inserisco in array emailList
-                        BufferedReader reader;
-                        StringBuilder sb;
-                        for (File child : directoryListing) {
-                            reader = new BufferedReader(new FileReader(child.getPath()));
-                            String line = reader.readLine();
-                            sb = new StringBuilder();
-                            while (line != null) {
-                                sb.append(line);
-                                sb.append("\n");
-                                line = reader.readLine();
-                            }
-                            reader.close();
-                            String json = sb.toString();
-                            //String json = "{'ID':'abc34e','data':'2023-01-05','sender':'io@gmail.com','receivers':['tu@mail.it','prova.gmail.it', 'studente@unito.it'],'subject':'oggetto','text':''}";
-                            Gson gson = new Gson();
-                            Email e = gson.fromJson(json, Email.class);
-                            System.out.println("Mail "+ e.toReadProperty());
-                            emailList.add(0, e);
-                        }
+                        reader.close();
+                        String json = sb.toString();
+                        //String json = "{'ID':'abc34e','data':'2023-01-05','sender':'io@gmail.com','receivers':['tu@mail.it','prova.gmail.it', 'studente@unito.it'],'subject':'oggetto','text':''}";
+                        Gson gson = new Gson();
+                        Email e = gson.fromJson(json, Email.class);
+                        System.out.println("Mail "+ e.toReadProperty());
+                        emailList.add(0, e);
                     }
                 }
-                //Popolo array di mail eliminate
-                ArrayList<Email> clientDeletedMail = new ArrayList<>();
-                emailList.removeIf(eD -> {
-                    if(eD.isDeleted()) {
-                        clientDeletedMail.add(eD);
-                    }
-                    return eD.isDeleted();
-                });
+            }
+            //Popolo array di mail eliminate
+            ArrayList<Email> clientDeletedMail = new ArrayList<>();
+            emailList.removeIf(eD -> {
+                if(eD.isDeleted()) {
+                    clientDeletedMail.add(eD);
+                }
+                return eD.isDeleted();
+            });
 
-                //Popolo array di mail ricevute e inviate (escluse quelle eliminate)
-                ArrayList<Email> clientReceivedMail = new ArrayList<>();
-                emailList.forEach(eR -> {
-                    if (eR.getReceivers().contains(clientName)) {
-                        clientReceivedMail.add(eR);
-                    }
-                });
+            //Popolo array di mail ricevute e inviate (escluse quelle eliminate)
+            ArrayList<Email> clientReceivedMail = new ArrayList<>();
+            emailList.forEach(eR -> {
+                if (eR.getReceivers().contains(clientName)) {
+                    clientReceivedMail.add(eR);
+                }
+            });
 
 
             //invio mail inviate ed eliminate solo se è la prima connessione
-                if(firstConn) {
-                    ArrayList<Email> clientSentMail = new ArrayList<>();
-                    emailList.forEach(eS -> {
-                        if (eS.getSender().equals(clientName)) {
-                            clientSentMail.add(eS);
-                        }
-                    });
-                    outStream.writeObject(clientDeletedMail);
-                    Platform.runLater(()-> serverLog.setLastMessage("Utente " + clientName + (clientDeletedMail.size()>0? " riceve mail eliminate: " + printMailArray(clientDeletedMail): " nessuna mail eliminata")));
-                    outStream.writeObject(clientSentMail);
-                    Platform.runLater(()-> serverLog.setLastMessage("Utente " + clientName + (clientSentMail.size()>0? " riceve mail inviate: " + printMailArray(clientSentMail): " nessuna mail inviata")));
-                }
+            if(firstConn) {
+                ArrayList<Email> clientSentMail = new ArrayList<>();
+                emailList.forEach(eS -> {
+                    if (eS.getSender().equals(clientName)) {
+                        clientSentMail.add(eS);
+                    }
+                });
+                outStream.writeObject(clientDeletedMail);
+                Platform.runLater(()-> serverLog.setLastMessage("Utente " + clientName + (clientDeletedMail.size()>0? " riceve mail eliminate: " + printMailArray(clientDeletedMail): " nessuna mail eliminata")));
+                outStream.writeObject(clientSentMail);
+                Platform.runLater(()-> serverLog.setLastMessage("Utente " + clientName + (clientSentMail.size()>0? " riceve mail inviate: " + printMailArray(clientSentMail): " nessuna mail inviata")));
+            }
             outStream.writeObject(clientReceivedMail);
             Platform.runLater(()-> serverLog.setLastMessage("Utente " + clientName + (clientReceivedMail.size()>0? " riceve mail in arrivo: " + printMailArray(clientReceivedMail): " nessuna mail ricevuta")));
 
@@ -245,7 +245,6 @@ public class ClientThreadHandler implements Runnable {
             } catch (IOException e) {
                 System.out.println(e.getMessage()+e.getCause());
                 Platform.runLater(()-> serverLog.setLastMessage("ERROR: Utente " + clientName + " errore di comunicazione"));
-            //e.printStackTrace();
             }
         }
 
