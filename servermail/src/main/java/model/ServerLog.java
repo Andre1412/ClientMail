@@ -10,7 +10,7 @@ public class ServerLog {
     }
 
     public void setLastMessage(String msg){
-        lastMessage.setValue(msg);
+         lastMessage.setValue(msg);
     }
 
     public SimpleStringProperty getLastMessage(){
