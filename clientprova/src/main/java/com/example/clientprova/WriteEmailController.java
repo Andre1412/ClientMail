@@ -113,7 +113,7 @@ public class WriteEmailController {
                         });
                 }else {
                     lblTo.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-                    new AlertController(mainController.stage,"ERROR","Receiver" + errorReceiver + " errato/i","ERROR",this,()->null ).showAndWait();
+                    new AlertController(mainController.stage,"Errore!","Receiver" + errorReceiver + " errato/i","ERROR",this,()->null ).showAndWait();
                 }
             } else {
                 lblTo.setStyle("-fx-border-color: red; -fx-border-width: 2px;");

@@ -16,7 +16,8 @@ public class EmailClientMain extends Application {
         FXMLLoader root = new FXMLLoader(getClass().getResource("index.fxml"));
         Scene scene = new Scene(root.load(), 300, 200);
         stage.setScene(scene);
-        stage.setTitle("Email client");
+        stage.setTitle("Chatty");
+        stage.getIcons().add(new Image("icon-client.png"));
         stage.show();
     }
 

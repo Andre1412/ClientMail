@@ -108,7 +108,7 @@ public class ReadEmailController {
                 listEmail.getSelectionModel().select(email);
                 clientController.setToRead(email,response-> {
                     if(response.getStatus()=="ERROR")
-                        Platform.runLater(() -> new AlertController(stage, "Error", "Errore, il server è spento", "ERROR", mainController.writeEmail, () -> null).showAndWait());
+                        Platform.runLater(() -> new AlertController(stage, "Qualcosa è andato storto", "Errore, il server è spento", "ERROR", mainController.writeEmail, () -> null).showAndWait());
                     }
                 );
             }

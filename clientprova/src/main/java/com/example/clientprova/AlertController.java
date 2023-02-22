@@ -15,8 +15,6 @@ import java.util.concurrent.Callable;
 public class AlertController extends Dialog<ButtonType> {
 
     @FXML
-    public Label info;
-    @FXML
     public Label msg1;
     @FXML
     public Label msg2;
@@ -61,7 +59,6 @@ public class AlertController extends Dialog<ButtonType> {
             });
 
             if(type=="ERROR"){
-                info.setText("Errore!");
                 noBtn.setText("OK");
                 okBtn.setVisible(false);
             }else{
@@ -77,7 +74,6 @@ public class AlertController extends Dialog<ButtonType> {
                     }
 
                 });
-                info.setText("Attenzione!");
             }
             this.msg2.setText(msg2);
             this.msg1.setText(msg1);
@@ -87,11 +83,9 @@ public class AlertController extends Dialog<ButtonType> {
             System.out.println(e);
         }
     }
- //TODO: se vogliamo tenere la barra di pulsanti di sistema, lasciare il metodo sotto
-    /*
 
     @FXML private void initialize() {
         Window window = getDialogPane().getScene().getWindow();
         window.setOnCloseRequest(event -> window.hide());
-    } */
+    }
 }

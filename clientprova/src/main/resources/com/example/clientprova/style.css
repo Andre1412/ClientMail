@@ -27,7 +27,6 @@ Button VBox{
     -fx-background-color: transparent;
 }
 
-
 Button{
     -fx-background-color: none;
 }
@@ -49,6 +48,11 @@ TextField{
 #lblTO{
     -fx-border-radius: 3px;
 }
+
+TextArea{
+    -fx-font-size: 16px;
+}
+
 .list-cell{
     -fx-font-size: 18px;
     -fx-background-color:#e7e6e8;
@@ -86,13 +90,7 @@ DialogPane VBox, DialogPane HBox{
 DialogPane Label{
     -fx-text-fill: #8082B0;
 }
-TextFlow{
-    -fx-padding: 20px;
-    -fx-spacing: 10px;
-}
-TextFlow Text{
-    -fx-font-size: 18px;
-}
+
 #listEmail #listCell{
     -fx-background-color: transparent;
 }

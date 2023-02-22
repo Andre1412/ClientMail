@@ -75,7 +75,7 @@ public class ClientController {
             System.out.println("fine");
         } catch (IOException e) {
             if(serverStatus.getValue()){
-                Platform.runLater(()->new AlertController(mainController.stage,"Error", "Il server si è spento","ERROR", mainController.writeEmail, ()->null).showAndWait());
+                Platform.runLater(()->new AlertController(mainController.stage,"Qualcosa è andato storto", "Il server si è spento","ERROR", mainController.writeEmail, ()->null).showAndWait());
             }
             this.serverStatus.setValue(false);
         } catch (ClassNotFoundException e) {

@@ -131,7 +131,7 @@ public class MainController {
         return m.find();
     }
 
-    public void loadAlert(String msg1, String msg2, String type, String action){
+    public void loadAlert(String msg1,String msg2, String type, String action){
         new AlertController(stage,msg1, msg2, type, writeEmail, ()->{
             writeEmail.viewWriteEmail(action,readEmail.getSelectedEmail());
             return null;
