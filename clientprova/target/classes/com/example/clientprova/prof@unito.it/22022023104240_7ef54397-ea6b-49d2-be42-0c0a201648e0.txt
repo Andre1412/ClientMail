@@ -1,1 +1,0 @@
-{"ID":"22022023104240_7ef54397-ea6b-49d2-be42-0c0a201648e0","dataSpedizione":"22-02-2023 10:42","sender":"studente@unito.it","receivers":["prof@unito.it","tutor@unito.it"],"text":"Prova con più persone","subject":"Prova più receiver","toRead":false,"deleted":false}
