@@ -1,1 +1,0 @@
-{"ID":"22022023103844_591c6dc7-bc55-48dc-b3db-e1e4946ecce3","dataSpedizione":"22-02-2023 10:38","sender":"studente@unito.it","receivers":["tutor@unito.it"],"text":"È andato tutto bene","subject":"Prova email","toRead":true,"deleted":false}

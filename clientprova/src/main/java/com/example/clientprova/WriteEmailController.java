@@ -123,10 +123,12 @@ public class WriteEmailController {
                 a.show();
             }
         } else {
+            /*
             Alert a = new Alert(Alert.AlertType.ERROR);
             a.setContentText("Non puoi inviare una mail vuota");
             a.setHeaderText("Errore scrittura email");
-            a.show();
+            a.show();*/
+            new AlertController(mainController.stage,"Errore!","Non puoi inviare una mail vuota","ERROR",this,()->null ).showAndWait();
         }
     }
     private ArrayList<String> getReceivers(){

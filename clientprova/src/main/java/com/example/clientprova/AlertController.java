@@ -81,6 +81,7 @@ public class AlertController extends Dialog<ButtonType> {
             }
             this.msg2.setText(msg2);
             this.msg1.setText(msg1);
+            this.setTitle("Attenzione!");
             setDialogPane(dialogPane);
         }catch (IOException e){
             System.out.println(e);

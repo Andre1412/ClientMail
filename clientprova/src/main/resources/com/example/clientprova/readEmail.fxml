@@ -7,6 +7,7 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -21,8 +22,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.control.Tooltip?>
-<SplitPane fx:id="PaneListEmail" dividerPositions="0.3396" prefHeight="600.0" prefWidth="840.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.clientprova.ReadEmailController">
+<SplitPane fx:id="PaneListEmail" dividerPositions="0.3396" prefHeight="600.0" prefWidth="840.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.clientprova.ReadEmailController">
     <items>
       <VBox fx:id="borderListEmail" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: none;">
          <children>
@@ -54,7 +54,7 @@
                               <Insets bottom="10.0" top="10.0" />
                            </HBox.margin>
                         </TextField>
-                        <Button fx:id="searchEmail" alignment="CENTER" mnemonicParsing="false" onAction="#searchEmail" text="Cerca" defaultButton="true" textFill="WHITE">
+                        <Button fx:id="searchEmail" alignment="CENTER" defaultButton="true" mnemonicParsing="false" onAction="#searchEmail" text="Cerca" textFill="WHITE">
                            <graphic>
                               <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -69,7 +69,7 @@
             </VBox>
             <AnchorPane maxHeight="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                <children>
-                      <ListView fx:id="listEmail" fixedCellSize="70.0" maxHeight="1.7976931348623157E308" minWidth="-Infinity" prefWidth="282.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                      <ListView fx:id="listEmail" fixedCellSize="70.0" maxHeight="1.7976931348623157E308" minWidth="-Infinity" prefWidth="282.0" style="-fx-background-color: #e7e6e8;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
          </children>

@@ -12,18 +12,11 @@
 <content>
    <VBox fx:id="dialogPaneVBox" alignment="CENTER" prefWidth="388.0" spacing="20.0">
       <children>
-         <HBox fx:id="dialogPaneHBox" alignment="TOP_CENTER" spacing="10.0">
-            <children>
-               <Label fx:id="info" text="Errore!" textFill="#8082b0">
-                     <font>
-                        <Font name="Alexandria Regular" size="18.0" />
-                     </font></Label>
-               <Label fx:id="msg1" text="Qualcosa è andato storto" textFill="#8082b0">
-                     <font>
-                        <Font name="Alexandria Regular" size="18.0" />
-                     </font></Label>
-            </children>
-         </HBox>
+         <Label fx:id="msg1" text="Qualcosa è andato storto" textFill="#8082b0">
+               <font>
+                  <Font name="Alexandria Regular" size="18.0" />
+               </font>
+            </Label>
          <Label fx:id="msg2" style="-fx-font-weight: 700;" text="messaggio2" textFill="#8082b0">
                <font>
                   <Font name="Alexandria Regular" size="16.0" />
