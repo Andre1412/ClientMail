@@ -1,30 +1,18 @@
 package com.example.clientprova;
 
 import javafx.application.Platform;
-import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.collections.ObservableList;
-import javafx.util.converter.LocalDateTimeStringConverter;
+
 import model.Client;
 import model.Email;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.net.SocketException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.function.Consumer;
-import java.util.function.Function;
-
-
-import static java.lang.Thread.sleep;
 
 public class ClientController {
 

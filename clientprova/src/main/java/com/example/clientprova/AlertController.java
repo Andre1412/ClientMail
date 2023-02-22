@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+
 import javafx.stage.Window;
 import model.Client;
 

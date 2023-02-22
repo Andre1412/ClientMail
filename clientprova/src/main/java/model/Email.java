@@ -1,9 +1,6 @@
 package model;
 
-import javafx.beans.property.SimpleBooleanProperty;
-
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

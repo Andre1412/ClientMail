@@ -3,8 +3,8 @@ package com.example.clientprova;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import model.Client;
 
 import java.io.IOException;
 
