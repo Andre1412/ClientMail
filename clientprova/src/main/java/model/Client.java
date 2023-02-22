@@ -172,6 +172,7 @@ public class Client {
     public void setCurrentEmails(){
         currentEmails.clear();
         currentEmails.addAll(view.getValue().equals("incoming")? inboxContent: view.getValue().equals("sent")?sentContent: deletedContent);
+
     }
     public ObservableList<Email> getCurrentEmails(){
         return currentEmails;

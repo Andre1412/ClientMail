@@ -105,6 +105,7 @@ public class ReadEmailController {
             if(email.toReadProperty()){
                 email.setToReadProperty(false);
                 model.setCurrentEmails();
+                listEmail.getSelectionModel().select(email);
                 clientController.setToRead(email);
             }
             model.setNewEmails();
@@ -153,7 +154,7 @@ public class ReadEmailController {
             System.out.println("Permanente");
             clientController.permanentlyDelete(selectedEmail, response -> {
                 if (response.getStatus() == "ERROR") {
-                    Platform.runLater(() -> new AlertController("Qualcosa è andato storto", response.getMsg(), "ERROR", mainController.writeEmail, () -> null).showAndWait());
+                    Platform.runLater(() -> new AlertController(stage,"Qualcosa è andato storto", response.getMsg(), "ERROR", mainController.writeEmail, () -> null).showAndWait());
                 } else {
                     Platform.runLater(() -> {
                         model.permanentlyDelete(selectedEmail);
@@ -165,7 +166,7 @@ public class ReadEmailController {
         }else {
             clientController.deleteEmail(selectedEmail, response -> {
                 if (response.getStatus() == "ERROR") {
-                    Platform.runLater(() -> new AlertController("Qualcosa è andato storto", response.getMsg(), "ERROR", mainController.writeEmail, () -> null).showAndWait());
+                    Platform.runLater(() -> new AlertController(stage,"Qualcosa è andato storto", response.getMsg(), "ERROR", mainController.writeEmail, () -> null).showAndWait());
                 } else {
                     selectedEmail.setDeleted(true);
                     Platform.runLater(() -> {

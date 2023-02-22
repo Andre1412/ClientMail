@@ -132,7 +132,7 @@ public class MainController {
     }
 
     public void loadAlert(String msg1, String msg2, String type, String action){
-        new AlertController(msg1, msg2, type, writeEmail, ()->{
+        new AlertController(stage,msg1, msg2, type, writeEmail, ()->{
             writeEmail.viewWriteEmail(action,readEmail.getSelectedEmail());
             return null;
         }).showAndWait();
