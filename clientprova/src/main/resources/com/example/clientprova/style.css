@@ -45,6 +45,10 @@ TextField{
 #lblSubject:focused{
     -fx-font-size: 20px;
 }
+
+#lblTO{
+    -fx-border-radius: 3px;
+}
 .list-cell{
     -fx-font-size: 18px;
     -fx-background-color:#e7e6e8;

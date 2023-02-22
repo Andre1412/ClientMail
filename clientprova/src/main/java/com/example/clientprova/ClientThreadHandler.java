@@ -53,7 +53,7 @@ public class ClientThreadHandler implements Runnable {
                             String errorReceivers="";
                             for(int i = 0; i<receivers.size() && errorReceivers==""; i++){
                                 if(!new File("clientprova/src/main/resources/com/example/clientprova/"+receivers.get(i)).exists()){
-                                    errorReceivers="ERROR: Utente "+ clientName + " non esiste!";
+                                    errorReceivers="ERROR: Utente "+ receivers.get(i) + " non esiste!";
                                     outStream.writeUTF(errorReceivers);
                                     outStream.flush();
                                     Platform.runLater(() -> serverLog.setLastMessage("ERROR: Impossibile inviare mail " + email.getID() +" dell'utente " + clientName + ", receiver non esiste"));

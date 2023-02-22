@@ -54,7 +54,13 @@ public class WriteEmailController {
         lblTo.setPromptText("Invia a: ");
         lblSubject.setPromptText("Oggetto");
 
-        lblTo.textProperty().addListener(((observableValue, oldV, newV) ->{ if(!model.isWriting() && newV.trim()!="")model.setWriting(true);}));
+        lblTo.textProperty().addListener(((observableValue, oldV, newV) ->{
+            if(!model.isWriting() && newV.trim()!="")model.setWriting(true);
+            if(newV.trim()==""){
+                lblTo.setStyle("-fx-border-color: none");
+            }
+
+        }));
         lblSubject.textProperty().addListener(((observableValue, oldV, newV) ->{ if(!model.isWriting() && newV.trim()!="")model.setWriting(true);}));
         txtEmail.textProperty().addListener(((observableValue, oldV, newV) ->{ if(!model.isWriting() && newV.trim()!="")model.setWriting(true);}));
     }
