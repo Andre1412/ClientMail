@@ -62,8 +62,10 @@ public class EmailCell extends ListCell<Email> {
                     readController.onDeleteButtonClick(event);
                 });
                 mailAccount.setText(model.getView()=="sent"? "A: " + (String.join(", ", newValue.getReceivers()).length()>20? String.join(", ", newValue.getReceivers()).substring(0,20)+"...": String.join(", ", newValue.getReceivers())):newValue.getSender());
-                mailText.setText(String.join("  -  ", List.of(newValue.getSubject(), newValue.getText().length()>30? newValue.getText().replace("\n","")
-                        .substring(0, 30) + "...": newValue.getText().replace("\n",""))));
+
+                String text=(newValue.getSubject()+ " - " + newValue.getText()).length()>45? (newValue.getSubject() + " - " + newValue.getText().replace("\n",""))
+                        .substring(0, 45) + "...": (newValue.getSubject()+ " - " + newValue.getText().replace("\n",""));
+                mailText.setText(text);
 
 
                 if(newValue.toReadProperty()){

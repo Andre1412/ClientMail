@@ -156,7 +156,7 @@
                                   <tooltip><Tooltip showDelay="0.3s" text="elimina" /></tooltip>
                                   <graphic>
                                     <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                          <Image url="@images/garbage.png" />
+                                          <Image url="@images/garbage_for_read.png" />
                                     </ImageView>
                                  </graphic>
                               </Button>
