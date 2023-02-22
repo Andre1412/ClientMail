@@ -49,20 +49,9 @@ public class ClientController {
     }
 
     public void communicate(String host, int port){
-
-        //while(!success && attempts <= 5) {
-
-
-            scheduler.scheduleAtFixedRate(() ->{
-                    tryCommunication(host, port);
-            },0, 5, TimeUnit.SECONDS);
-            /*if(success) {
-                //tryConnect(host, port);
-                continue;
-            } */
-        //}
-        /*if(!success)
-            throw new RuntimeException("Server irraggiungibile");*/
+        scheduler.scheduleAtFixedRate(() ->{
+            tryCommunication(host, port);
+        },0, 5, TimeUnit.SECONDS);
     }
 
 
@@ -121,6 +110,7 @@ public class ClientController {
 
     private void connectToServer(String host, int port) throws IOException {
         socket = new Socket(host, port);
+        socket.setSoTimeout(3000);
         outputStream = new ObjectOutputStream(socket.getOutputStream());
         outputStream.flush();
         inputStream = new ObjectInputStream(socket.getInputStream());

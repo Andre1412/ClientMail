@@ -86,10 +86,11 @@ public class AlertController extends Dialog<ButtonType> {
             System.out.println(e);
         }
     }
+ //TODO: se vogliamo tenere la barra di pulsanti di sistema, lasciare il metodo sotto
+    /*
 
     @FXML private void initialize() {
         Window window = getDialogPane().getScene().getWindow();
         window.setOnCloseRequest(event -> window.hide());
-    }
-
+    } */
 }
