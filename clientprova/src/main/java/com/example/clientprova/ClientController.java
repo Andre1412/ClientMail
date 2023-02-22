@@ -86,7 +86,9 @@ public class ClientController {
             if(firstConn)firstConn=false;
             System.out.println("fine");
         } catch (IOException e) {
-            System.out.println("Connessione fallita");
+            if(serverStatus.getValue()){
+                Platform.runLater(()->new AlertController(mainController.stage,"Error", "Il server si è spento","ERROR", mainController.writeEmail, ()->null).showAndWait());
+            }
             this.serverStatus.setValue(false);
         } catch (ClassNotFoundException e) {
             System.out.println("Errori nella lettura dei dati");
