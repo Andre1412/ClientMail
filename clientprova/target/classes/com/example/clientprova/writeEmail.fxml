@@ -37,7 +37,7 @@
                            <Button alignment="TOP_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#clearWriteEmail">
                               <graphic>
                                             <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                                <Image url="@images/garbage.png" />
+                                                <Image url="@images/garbage_for_read.png" />
                                             </ImageView>
                               </graphic>
                            </Button>
