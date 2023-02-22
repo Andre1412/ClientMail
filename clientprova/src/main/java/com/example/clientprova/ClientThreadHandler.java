@@ -42,7 +42,6 @@ public class ClientThreadHandler implements Runnable {
         try{
             try {
                 openStreams(incoming);
-                while(inStream.available()<=0){}
                 String op=inStream.readUTF();
                 this.clientName = inStream.readUTF();
                 switch(op){

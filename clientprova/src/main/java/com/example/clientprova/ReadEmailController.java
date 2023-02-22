@@ -106,7 +106,11 @@ public class ReadEmailController {
                 email.setToReadProperty(false);
                 model.setCurrentEmails();
                 listEmail.getSelectionModel().select(email);
-                clientController.setToRead(email);
+                clientController.setToRead(email,response-> {
+                    if(response.getStatus()=="ERROR")
+                        Platform.runLater(() -> new AlertController(stage, "Error", "Errore, il server è spento", "ERROR", mainController.writeEmail, () -> null).showAndWait());
+                    }
+                );
             }
             model.setNewEmails();
             selectedEmail = email;

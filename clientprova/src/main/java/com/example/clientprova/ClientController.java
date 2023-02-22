@@ -150,10 +150,8 @@ public class ClientController {
 
 //            return feedback;
         } catch (IOException e) {
-            System.out.println("Errore comunicazione: "+ e.getMessage());
             this.serverStatus.setValue(false);
-            response.run(new ServerResponse("ERROR","Errore di comunicazione"));
-//            return "Errore nella comunicazione";
+            response.run(new ServerResponse("ERROR","Errore, il server è spento"));
         }finally{
             closeConnections();
         }
@@ -161,7 +159,7 @@ public class ClientController {
         });
     }
 
-    public void setToRead(Email email){
+    public void setToRead(Email email, ResponseFunction response){
         threadPool.execute(()-> {
             try {
                 this.connectToServer("localhost", 8085);
@@ -173,7 +171,7 @@ public class ClientController {
                     System.out.println("Errore nella modifica");
                 } else System.out.println("Modificato con successo!");
             } catch (IOException e) {
-                System.out.println("Errore comunicazione: " + e.getMessage());
+                response.run(new ServerResponse("ERROR","Errore, il server è spento"));
                 this.serverStatus.setValue(false);
             } finally {
                 System.out.println("Chiudo");
