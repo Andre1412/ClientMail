@@ -1,0 +1,15 @@
+@font-face {
+    font-family: 'Alexandria';
+    /*src: url('https://fonts.googleapis.com/css2?family=Alexandria&display=swap');*/
+    /*src: url('./Lato-Regular.ttf');*/
+}
+*{
+    -fx-font-family: Alexandria ;
+}
+TextFlow{
+    -fx-padding: 20px;
+    -fx-spacing: 10px;
+}
+TextFlow Text{
+    -fx-font-size: 18px;
+}

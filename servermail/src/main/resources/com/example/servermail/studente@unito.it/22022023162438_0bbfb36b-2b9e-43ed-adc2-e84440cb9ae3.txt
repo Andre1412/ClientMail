@@ -1,0 +1,1 @@
+{"ID":"22022023162438_0bbfb36b-2b9e-43ed-adc2-e84440cb9ae3","dataSpedizione":"22-02-2023 16:24","sender":"studente@unito.it","receivers":["prof@unito.it"],"text":"Buon pomeriggio,\nGrazie mille per l\u0027informazione, ce la metteremo tutta.\nCordiali saluti.","subject":"Re: Promemoria per l\u0027assegnazione del progetto","toRead":true,"deleted":false}
