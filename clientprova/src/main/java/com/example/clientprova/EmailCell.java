@@ -69,12 +69,10 @@ public class EmailCell extends ListCell<Email> {
 
 
                 if(newValue.toReadProperty()){
-                    System.out.println("Mail to read: "+ newValue + newValue.getID() +newValue.toReadProperty());
                     if(!getStyleClass().contains("toRead")) getStyleClass().add("toRead");
                 }else {
                     if(getStyleClass().contains("toRead")) getStyleClass().remove("toRead");
                 }
-
                 dateLabel.setText(newValue.getDataSpedizione());
                 setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
                 });

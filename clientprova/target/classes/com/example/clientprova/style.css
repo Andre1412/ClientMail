@@ -54,7 +54,7 @@ TextField{
     -fx-text-fill: purple;
 }
 .list-cell:empty {
-    -fx-background-color: white;
+    -fx-background-color:#e7e6e8;
 }
 
 

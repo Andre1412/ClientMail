@@ -24,21 +24,34 @@ public class AlertController extends Dialog<ButtonType> {
     public Button okBtn;
     @FXML
     public Button noBtn;
-    private FXMLLoader loader;
 
+    double xOffset;
+    double yOffset;
     Client model;
 
-    public AlertController(String msg1, String msg2, String type, WriteEmailController writeEmailController, Callable<Void> f){
+    public AlertController(Stage owner,String msg1, String msg2, String type, WriteEmailController writeEmailController, Callable<Void> f){
         try{
-            Window window = getDialogPane().getScene().getWindow();
-            window.setOnCloseRequest(event -> window.hide());
-            this.loader = new FXMLLoader(getClass().getResource("alert.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("alert.fxml"));
             loader.setController(this);
+
             DialogPane dialogPane = loader.load();
-            model = writeEmailController.model;
-            initOwner(null);
-            initModality(Modality.APPLICATION_MODAL);
+            initOwner(owner);
+            initModality(Modality.WINDOW_MODAL);
             initStyle(StageStyle.TRANSPARENT);
+
+
+            getDialogPane().getScene().setOnMousePressed(event -> {
+                // Prende la posizione al click del mouse
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+            });
+
+            getDialogPane().getScene().setOnMouseDragged(event -> {
+                // Muove la finestra basandosi sulla posizione corrente
+                getDialogPane().getScene().getWindow().setX(event.getScreenX() - xOffset);
+                getDialogPane().getScene().getWindow().setY(event.getScreenY() - yOffset);
+            });
+            model = writeEmailController.model;
 
 
 
@@ -74,6 +87,9 @@ public class AlertController extends Dialog<ButtonType> {
         }
     }
 
-
+    @FXML private void initialize() {
+        Window window = getDialogPane().getScene().getWindow();
+        window.setOnCloseRequest(event -> window.hide());
+    }
 
 }

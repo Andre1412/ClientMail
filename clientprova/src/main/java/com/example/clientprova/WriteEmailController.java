@@ -111,7 +111,7 @@ public class WriteEmailController {
 /*                    Alert a = new Alert(Alert.AlertType.ERROR);
                     a.setContentText("Receiver" + errorReceiver + " errato/i");
                     a.show();*/
-                    new AlertController("ERROR","Receiver" + errorReceiver + " errato/i","ERROR",this,()->null ).showAndWait();
+                    new AlertController(mainController.stage,"ERROR","Receiver" + errorReceiver + " errato/i","ERROR",this,()->null ).showAndWait();
                 }
             } else {
                 lblTo.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
