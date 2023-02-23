@@ -80,7 +80,7 @@ public class AlertController extends Dialog<ButtonType> {
             this.setTitle("Attenzione!");
             setDialogPane(dialogPane);
         }catch (IOException e){
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 

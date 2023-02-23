@@ -18,8 +18,7 @@ import java.util.concurrent.*;
 public class ClientController {
 
     private final ExecutorService threadPool;
-    private MainController mainController;
-    Client client;
+    private Client client;
     private static final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
     private BooleanProperty serverStatus;
@@ -34,7 +33,6 @@ public class ClientController {
         threadPool = Executors.newFixedThreadPool(10);
         this.client = client;
         this.serverStatus = new SimpleBooleanProperty(false);
-        this.mainController = mainController;
     }
 
     public void communicate(String host, int port){

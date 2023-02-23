@@ -10,10 +10,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server extends Thread {
-    Socket socket = null;
-    ServerLog serverLog;
-    int port;
-    Stage stage;
+    private ServerLog serverLog;
+    private int port;
+    private Stage stage;
 
      public Server(int port, ServerLog serverLog,Stage stage){
          this.stage=stage;

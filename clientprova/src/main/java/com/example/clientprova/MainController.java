@@ -98,12 +98,12 @@ public class MainController {
     public void selectNewView(String newView, String oldV){
         //se la vista nuova è diversa dalla precedente eseguo switch grafico
         if(oldV!=newView) {
-            if(oldV=="write"){
+            if(oldV.equals("write")){
                 if(writeEmail.lblTo.getText().length()==0 && writeEmail.txtEmail.getText().length()==0 && writeEmail.lblSubject.getText().length()==0)
                     model.setWriting(false);
                 root.setCenter(readEmailNode);
             }
-            if(newView=="write"){
+            if(newView.equals("write")){
                 writeEmail("",null);
             }
         }

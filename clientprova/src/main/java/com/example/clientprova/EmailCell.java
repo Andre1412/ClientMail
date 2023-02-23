@@ -49,7 +49,7 @@ public class EmailCell extends ListCell<Email> {
                     readController.setSelectedEmail(newValue);
                     readController.onDeleteButtonClick(event);
                 });
-                mailAccount.setText(model.getView()=="sent"? "A: " + (String.join(", ", newValue.getReceivers()).length()>20? String.join(", ", newValue.getReceivers()).substring(0,20)+"...": String.join(", ", newValue.getReceivers())):newValue.getSender());
+                mailAccount.setText(model.getView().equals("sent") ? "A: " + (String.join(", ", newValue.getReceivers()).length()>20? String.join(", ", newValue.getReceivers()).substring(0,20)+"...": String.join(", ", newValue.getReceivers())):newValue.getSender());
 
                 String text=(newValue.getSubject()+ " - " + newValue.getText()).length()>45? (newValue.getSubject() + " - " + newValue.getText().replace("\n",""))
                         .substring(0, 45) + "...": (newValue.getSubject()+ " - " + newValue.getText().replace("\n",""));

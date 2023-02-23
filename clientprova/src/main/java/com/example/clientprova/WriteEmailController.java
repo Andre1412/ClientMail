@@ -41,14 +41,14 @@ public class WriteEmailController {
         lblSubject.setPromptText("Oggetto");
 
         lblTo.textProperty().addListener(((observableValue, oldV, newV) ->{
-            if(!model.isWriting() && newV.trim()!="")model.setWriting(true);
-            if(newV.trim()==""){
+            if(!model.isWriting() && !newV.trim().equals(""))model.setWriting(true);
+            if(newV.trim().equals("")){
                 lblTo.setStyle("-fx-border-color: none");
             }
 
         }));
-        lblSubject.textProperty().addListener(((observableValue, oldV, newV) ->{ if(!model.isWriting() && newV.trim()!="")model.setWriting(true);}));
-        txtEmail.textProperty().addListener(((observableValue, oldV, newV) ->{ if(!model.isWriting() && newV.trim()!="")model.setWriting(true);}));
+        lblSubject.textProperty().addListener(((observableValue, oldV, newV) ->{ if(!model.isWriting() && !newV.trim().equals(""))model.setWriting(true);}));
+        txtEmail.textProperty().addListener(((observableValue, oldV, newV) ->{ if(!model.isWriting() && !newV.trim().equals(""))model.setWriting(true);}));
     }
 
 
@@ -71,7 +71,7 @@ public class WriteEmailController {
         String date=simpleDateFormat.format(new Date());
 
         String uniqueID = date + "_" + UUID.randomUUID();
-        if(txtEmail.getText() != ""){
+        if(!txtEmail.getText().equals("")){
             ArrayList<String> receivers = getReceivers();
 
             if (receivers.size() > 0) {
@@ -80,14 +80,14 @@ public class WriteEmailController {
                 String errorReceiver="";
                 for(String account:receivers) {
                      matcher = patternMail.matcher(account);
-                     if(!matcher.find()) errorReceiver+=(errorReceiver!=""? ", " : " ") + account;
+                     if(!matcher.find()) errorReceiver+=(!errorReceiver.equals("") ? ", " : " ") + account;
                 }
 
                 if(errorReceiver==""){
                     lblTo.setStyle("-fx-border-color: none;");
                         Email send = new Email(uniqueID, strDate, lblsenderAccount.getText(), receivers, lblSubject.getText(), txtEmail.getText(), true,false);
                         clientController.sendEmail(send,response->{
-                            if(response.getStatus()=="OK"){
+                            if(response.getStatus().equals("OK")){
                                 Platform.runLater(()-> {
                                     clearWriteEmail();
                                     Platform.runLater(() -> new AlertController(mainController.stage,"Successo", "Mail inviata", "INFO", ()->null).showAndWait());

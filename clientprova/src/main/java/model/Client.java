@@ -96,9 +96,6 @@ public class Client {
         setCurrentEmails();
     }
 
-    public int newEmails() {
-        return newEmails.getValue();
-    }
     public SimpleIntegerProperty newEmailsProperty() {
         return newEmails;
     }
