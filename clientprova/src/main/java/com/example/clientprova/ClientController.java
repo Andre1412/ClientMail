@@ -25,9 +25,9 @@ public class ClientController {
 
     boolean firstConn=true;
 
-    Socket socket;
-    ObjectOutputStream outputStream = null;
-    ObjectInputStream inputStream = null;
+    private Socket socket;
+    private ObjectOutputStream outputStream = null;
+    private ObjectInputStream inputStream = null;
 
     public ClientController(Client client) {
         threadPool = Executors.newFixedThreadPool(10);
@@ -72,7 +72,7 @@ public class ClientController {
             if(firstConn)firstConn=false;
         } catch (IOException e) {
             if(serverStatus.getValue()){
-                Platform.runLater(()->new AlertController(mainController.stage,"Qualcosa è andato storto", "Il server si è spento","ERROR", ()->null).showAndWait());
+                Platform.runLater(()->new AlertController(null,"Qualcosa è andato storto", "Il server si è spento","ERROR", ()->null).showAndWait());
             }
             this.serverStatus.setValue(false);
         } catch (ClassNotFoundException e) {
@@ -143,12 +143,12 @@ public class ClientController {
                 this.connectToServer("localhost", 8085);
                 outputStream.writeUTF("read");
                 outputStream.writeUTF(client.getEmailAddress());
-                outputStream.writeObject(email);
+                outputStream.writeObject(new Email(email.getID(),email.getDataSpedizione(),email.getSender(),email.getReceivers(),email.getSubject(),email.getText(),false,email.deletedProperty()));
                 outputStream.flush();
 
                 if (inputStream.readUTF().contains("ERROR")) {
                     response.run(new ServerResponse("ERROR","Errore, operazione non riuscita"));
-                }
+                }else  response.run(new ServerResponse("OK","Operazione riuscita"));
             } catch (IOException e) {
                 response.run(new ServerResponse("ERROR","Errore, il server è spento"));
                 this.serverStatus.setValue(false);

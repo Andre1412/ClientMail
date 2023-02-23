@@ -51,20 +51,19 @@ public class ReadEmailController {
     @FXML
     public TextField searchTxt;
 
-    SimpleBooleanProperty server_status;
+    private SimpleBooleanProperty server_status;
 
-    MainController mainController;
-    ClientController clientController;
+    private MainController mainController;
+    private ClientController clientController;
 
     private Client model;
     private Email selectedEmail;
 
 
-    public void setMainController(MainController m, Client model, ClientController clientController, Stage stage){
+    public void setMainController(MainController m, Client model, ClientController clientController){
         this.mainController = m;
         this.model = model;
         this.clientController = clientController;
-        this.stage=stage;
         selectedEmail = null;
 
         model.getCurrentEmails().addListener((ListChangeListener<Email>)(value)->{
@@ -72,7 +71,7 @@ public class ReadEmailController {
         });
 
         model.getViewProperty().addListener(((observableValue, oldV, newV) -> changeView(newV)));
-        listEmail.setCellFactory((listView)->new EmailCell(model, listEmail,stage, this));
+        listEmail.setCellFactory((listView)->new EmailCell(model, listEmail, this));
         listEmail.setOnMouseClicked(this::showSelectedEmail);
         username.textProperty().bind(model.emailAddressProperty());
         PaneListEmail.getItems().remove(borderTextEmail);
@@ -102,9 +101,18 @@ public class ReadEmailController {
                 model.setCurrentEmails();
                 listEmail.getSelectionModel().select(email);
                 clientController.setToRead(email,response-> {
-                    if(response.getStatus()=="ERROR")
-                        Platform.runLater(() -> new AlertController(stage, "Qualcosa è andato storto", response.getMsg(), "ERROR", () -> null).showAndWait());
-                    else  email.setToReadProperty(false);
+                    if(response.getStatus().equals("ERROR"))
+                        Platform.runLater(() -> new AlertController(null, "Qualcosa è andato storto", response.getMsg(), "ERROR", () -> null).showAndWait());
+                    else {
+                        email.setToReadProperty(false);
+                        Platform.runLater(()->{
+                            model.setCurrentEmails();
+                            listEmail.getSelectionModel().select(selectedEmail);
+                            model.setNewEmails();
+                        });
+
+                    }
+
                 });
             }
             model.setNewEmails();
@@ -153,8 +161,8 @@ public class ReadEmailController {
     protected void onDeleteButtonClick(ActionEvent event) {
         if(model.getDeletedContent().contains(selectedEmail)) {
             clientController.permanentlyDelete(selectedEmail, response -> {
-                if (response.getStatus() == "ERROR") {
-                    Platform.runLater(() -> new AlertController(stage,"Qualcosa è andato storto", response.getMsg(), "ERROR", () -> null).showAndWait());
+                if (response.getStatus().equals("ERROR")) {
+                    Platform.runLater(() -> new AlertController(null,"Qualcosa è andato storto", response.getMsg(), "ERROR", () -> null).showAndWait());
                 } else {
                     Platform.runLater(() -> {
                         model.permanentlyDelete(selectedEmail);
@@ -165,8 +173,8 @@ public class ReadEmailController {
             });
         }else {
             clientController.deleteEmail(selectedEmail, response -> {
-                if (response.getStatus() == "ERROR") {
-                    Platform.runLater(() -> new AlertController(stage,"Qualcosa è andato storto", response.getMsg(), "ERROR", () -> null).showAndWait());
+                if (response.getStatus().equals("ERROR")) {
+                    Platform.runLater(() -> new AlertController(null,"Qualcosa è andato storto", response.getMsg(), "ERROR", () -> null).showAndWait());
                 } else {
                     selectedEmail.setDeleted(true);
                     Platform.runLater(() -> {

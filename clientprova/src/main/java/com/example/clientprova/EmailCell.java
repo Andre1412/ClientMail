@@ -23,11 +23,10 @@ public class EmailCell extends ListCell<Email> {
     @FXML
     public Button cellDeleteBtn;
     public ListView parent;
-    String fullText;
-    Client model;
-    Stage stage;
+    private String fullText;
+    private Client model;
     int nChar;
-    public EmailCell(Client model, ListView parent, Stage stage, ReadEmailController readController) {
+    public EmailCell(Client model, ListView parent, ReadEmailController readController) {
         try {
             this.model = model;
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource("emailCell.fxml"));
@@ -35,7 +34,6 @@ public class EmailCell extends ListCell<Email> {
             loader.setRoot(this);
             loader.load();
             this.parent=parent;
-            this.stage=stage;
             nChar=40;
             itemProperty().addListener((obs, oldValue, newValue) -> {
                 // Empty cell

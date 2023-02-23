@@ -24,7 +24,7 @@ public class MainController {
     public TextField txtAccount;
 
     private ButtonTabController buttonTab;
-    ReadEmailController readEmail;
+    private ReadEmailController readEmail;
     private WriteEmailController writeEmail;
 
     private ClientController clientController;
@@ -32,7 +32,7 @@ public class MainController {
     private Parent readEmailNode;
     private Parent writeEmailNode;
 
-    Stage stage;
+    private Stage stage;
 
     @FXML
     public void loadMainController(ActionEvent mouseEvent){
@@ -72,7 +72,7 @@ public class MainController {
                 FXMLLoader writeEmailLoader = new FXMLLoader(getClass().getResource("writeEmail.fxml"));
                 writeEmailNode = writeEmailLoader.load();
                 this.writeEmail = writeEmailLoader.getController();
-                writeEmail.setMainController(this,model,clientController);
+                writeEmail.setMainController(model,clientController,stage);
 
                 model.getViewProperty().addListener(((observableValue, oldV, newV) ->{
                     selectNewView(newV,oldV);

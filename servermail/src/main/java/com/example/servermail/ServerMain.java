@@ -10,8 +10,8 @@ import model.ServerLog;
 import java.io.IOException;
 
 public class ServerMain extends Application {
-    ServerController serverController;
-    ServerLog serverLog;
+    private ServerController serverController;
+    private ServerLog serverLog;
 
     public static void main(String[] args) {
         launch();

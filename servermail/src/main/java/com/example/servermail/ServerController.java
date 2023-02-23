@@ -13,7 +13,7 @@ public class ServerController {
 
     @FXML
     public TextFlow textFlow;
-    ServerLog serverLog;
+    private ServerLog serverLog;
 
     public void setMainController(ServerLog serverLog){
         this.serverLog=serverLog;

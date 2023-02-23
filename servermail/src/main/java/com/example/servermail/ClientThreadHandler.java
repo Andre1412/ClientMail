@@ -12,21 +12,19 @@ import java.net.Socket;
 import java.util.*;
 
 public class ClientThreadHandler implements Runnable {
-    Socket incoming;
-    ObjectInputStream inStream = null;
-    ObjectOutputStream outStream = null;
-    ServerLog serverLog;
-    Stage stage;
-    String clientName;
+    private Socket incoming;
+    private ObjectInputStream inStream = null;
+    private ObjectOutputStream outStream = null;
+    private ServerLog serverLog;
+    private Stage stage;
+    private String clientName;
 
-    private boolean running = true;
 
     public ClientThreadHandler(Socket in, ServerLog serverLog, Stage stage) {
         this.incoming = in;
         this.serverLog = serverLog;
         this.stage = stage;
         this.stage.addEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST, event -> {
-            stop();
             System.exit(0);
         });
     }
@@ -44,7 +42,7 @@ public class ClientThreadHandler implements Runnable {
                             Email email = (Email) inStream.readObject();
                             ArrayList<String> receivers = email.getReceivers();
                             String errorReceivers="";
-                            for(int i = 0; i<receivers.size() && errorReceivers==""; i++){
+                            for(int i = 0; i<receivers.size() && errorReceivers.equals(""); i++){
                                 if(!new File("servermail/src/main/resources/com/example/servermail/"+receivers.get(i)).exists()){
                                     errorReceivers="ERROR: Utente "+ receivers.get(i) + " non esiste!";
                                     outStream.writeUTF(errorReceivers);
@@ -52,7 +50,7 @@ public class ClientThreadHandler implements Runnable {
                                     Platform.runLater(() -> serverLog.setLastMessage("ERROR: Impossibile inviare mail " + email.getID() +" dell'utente " + clientName + ", receiver non esiste"));
                                 }
                             }
-                            if(errorReceivers=="") {
+                            if(errorReceivers.equals("")) {
                                 File emailSentInClient = new File("servermail/src/main/resources/com/example/servermail/" + clientName + "/" + email.getID() + ".txt");
                                 emailSentInClient.createNewFile();
                                 FileWriter fileWriter = new FileWriter(emailSentInClient);
@@ -140,7 +138,8 @@ public class ClientThreadHandler implements Runnable {
                 throw new RuntimeException(e);
             } finally{
                 closeStreams();
-                incoming.close();
+                if(incoming!=null)
+                    incoming.close();
                 Platform.runLater(()-> serverLog.setLastMessage("Utente " + clientName + " disconnesso"));
 
             }
@@ -151,11 +150,11 @@ public class ClientThreadHandler implements Runnable {
     }
     private void receive(){
         try {
-            boolean firstConn = (boolean) inStream.readBoolean();
-            String dateLastCheck = (String) inStream.readUTF();
+            boolean firstConn = inStream.readBoolean();
+            String dateLastCheck = inStream.readUTF();
 
             ArrayList<Email> emailList=new ArrayList<>();
-            Platform.runLater(()-> serverLog.setLastMessage("Utente " + clientName + (dateLastCheck=="null"? " ha effettuato l'accesso, invio mail": " connesso, ricerca nuove mail")));
+            Platform.runLater(()-> serverLog.setLastMessage("Utente " + clientName + (dateLastCheck.equals("null")? " ha effettuato l'accesso, invio mail": " connesso, ricerca nuove mail")));
 
             //Cerco directory del client
             File resource = new File("servermail/src/main/resources/com/example/servermail/"+clientName);
@@ -166,7 +165,7 @@ public class ClientThreadHandler implements Runnable {
             } else {
                 //Se c'era cerco se ci sono file interni
                 ArrayList<File> directoryListing = new ArrayList<>(Arrays.asList(resource.listFiles()));
-                if (directoryListing != null) {
+                if (directoryListing.size()>0) {
                     if(!dateLastCheck.equals("null")) {
                         directoryListing.removeIf((f)-> {
                                     String fileDate = f.getName().split("_")[0];
@@ -252,9 +251,6 @@ public class ClientThreadHandler implements Runnable {
         inStream = new ObjectInputStream(socket.getInputStream());
         outStream = new ObjectOutputStream(socket.getOutputStream());
         outStream.flush();
-    }
-    public void stop() {
-        running = false;
     }
 
     private void closeStreams() throws IOException {
