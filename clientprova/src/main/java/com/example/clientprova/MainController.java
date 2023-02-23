@@ -23,14 +23,14 @@ public class MainController {
     @FXML
     public TextField txtAccount;
 
-    ButtonTabController buttonTab;
+    private ButtonTabController buttonTab;
     ReadEmailController readEmail;
-    WriteEmailController writeEmail;
+    private WriteEmailController writeEmail;
 
-    ClientController clientController;
+    private ClientController clientController;
     private Client model;
-    Parent readEmailNode;
-    Parent writeEmailNode;
+    private Parent readEmailNode;
+    private Parent writeEmailNode;
 
     Stage stage;
 
@@ -132,7 +132,7 @@ public class MainController {
     }
 
     public void loadAlert(String msg1,String msg2, String type, String action){
-        new AlertController(stage,msg1, msg2, type, writeEmail, ()->{
+        new AlertController(stage,msg1, msg2, type, ()->{
             writeEmail.viewWriteEmail(action,readEmail.getSelectedEmail());
             return null;
         }).showAndWait();

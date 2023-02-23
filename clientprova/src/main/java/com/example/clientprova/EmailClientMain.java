@@ -18,6 +18,7 @@ public class EmailClientMain extends Application {
         stage.setScene(scene);
         stage.setTitle("Chatty");
         stage.getIcons().add(new Image("icon-client.png"));
+
         stage.show();
     }
 

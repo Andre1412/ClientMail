@@ -153,7 +153,6 @@ public class ClientThreadHandler implements Runnable {
         try {
             boolean firstConn = (boolean) inStream.readBoolean();
             String dateLastCheck = (String) inStream.readUTF();
-            System.out.println(dateLastCheck);
 
             ArrayList<Email> emailList=new ArrayList<>();
             Platform.runLater(()-> serverLog.setLastMessage("Utente " + clientName + (dateLastCheck=="null"? " ha effettuato l'accesso, invio mail": " connesso, ricerca nuove mail")));
@@ -192,7 +191,6 @@ public class ClientThreadHandler implements Runnable {
                         String json = sb.toString();
                         Gson gson = new Gson();
                         Email e = gson.fromJson(json, Email.class);
-                        System.out.println("Mail "+ e.toReadProperty());
                         emailList.add(0, e);
                     }
                 }

@@ -35,12 +35,10 @@ public class WriteEmailController {
     @FXML
     public TextArea txtEmail;
 
-    boolean checkBodyEmail = false;
     Email mail;
     Client model;
     MainController mainController;
     ClientController clientController;
-    StringProperty receivers;
 
     /*
     * action può assumere valore "forward", "reply", "replyall"
@@ -104,23 +102,24 @@ public class WriteEmailController {
                             if(response.getStatus()=="OK"){
                                 Platform.runLater(()-> {
                                     clearWriteEmail();
+                                    Platform.runLater(() -> new AlertController(mainController.stage,"Successo", "Mail inviata", "INFO", ()->null).showAndWait());
+
                                 });
                             }else {
-                                Platform.runLater(() -> mainController.loadAlert("ERROR: Qualcosa è andato storto", response.getMsg(), "ERROR", ""));
+                                Platform.runLater(() -> new AlertController(mainController.stage,"ERROR: Qualcosa è andato storto", response.getMsg(), "ERROR", ()->null).showAndWait());
                                 if(response.getMsg().contains("non esiste")) lblTo.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
                             }
 
                         });
                 }else {
                     lblTo.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-                    new AlertController(mainController.stage,"Errore!","Receiver" + errorReceiver + " errato/i","ERROR",this,()->null ).showAndWait();
+                    new AlertController(mainController.stage,"Errore!","Receiver" + errorReceiver + " errato/i","ERROR",()->null ).showAndWait();
                 }
             } else {
                 lblTo.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                new AlertController(mainController.stage,"Errore!","Aggiungi almeno un destinatario","ERROR",()->null ).showAndWait();
+
                 Alert a = new Alert(Alert.AlertType.ERROR);
-                a.setContentText("Aggiungi almeno un destinatario");
-                a.setTitle("Inserisci destinatario");
-                a.show();
             }
         } else {
             /*
@@ -128,13 +127,13 @@ public class WriteEmailController {
             a.setContentText("Non puoi inviare una mail vuota");
             a.setHeaderText("Errore scrittura email");
             a.show();*/
-            new AlertController(mainController.stage,"Errore!","Non puoi inviare una mail vuota","ERROR",this,()->null ).showAndWait();
+            new AlertController(mainController.stage,"Errore!","Non puoi inviare una mail vuota","ERROR",()->null ).showAndWait();
         }
     }
     private ArrayList<String> getReceivers(){
         ArrayList<String> receivers = new ArrayList<>();
-        if(lblTo.getText().length()>0) {
-            String[] receiv = lblTo.getText().split("\\s+");
+        if(lblTo.getText().trim().length()>0) {
+            String[] receiv = lblTo.getText().trim().split("\\s+");
             for (int i = 0; i < receiv.length; i++) {
                 receivers.add(receiv[i]);
             }

@@ -46,40 +46,38 @@ public class ClientController {
 
     private void tryCommunication(String host, int port){
         try {
-            System.out.println("connesso");
             connectToServer(host, port);
             outputStream.writeUTF("receive");
             outputStream.writeUTF(client.getEmailAddress());
             outputStream.writeBoolean(firstConn);
             outputStream.writeUTF(client.getLastEmailFormattedDate());
             outputStream.flush();
-            //Se è la prima connessione aspetto anche mail inviate
+
+
+            //Se è la prima connessione aspetto anche mail inviate ed eliminate
             if(firstConn) {
-                //Attendo mail eliminate
                 ArrayList<Email> deletedEmails = (ArrayList<Email>)inputStream.readObject();
                 ArrayList<Email> sentEmails = (ArrayList<Email>) inputStream.readObject();
-                System.out.println("Eliminate: "+deletedEmails);
-                System.out.println("Inviate: "+sentEmails);
                 Platform.runLater(()->{
-                        client.setSentContent(sentEmails);
-                        client.setDeletedContent(deletedEmails);});
+                    client.setSentContent(sentEmails);
+                    client.setDeletedContent(deletedEmails);
+                });
             }
             //Attendo mail in arrivo
             ArrayList<Email> inboxEmails = (ArrayList<Email>)inputStream.readObject();
 
-            System.out.println("Ricevute: "+inboxEmails);
             Platform.runLater(()->
                 client.setInboxContent(inboxEmails));
 
+            //Se la connessione è riuscita lo segnalo
             if(firstConn)firstConn=false;
-            System.out.println("fine");
         } catch (IOException e) {
             if(serverStatus.getValue()){
-                Platform.runLater(()->new AlertController(mainController.stage,"Qualcosa è andato storto", "Il server si è spento","ERROR", mainController.writeEmail, ()->null).showAndWait());
+                Platform.runLater(()->new AlertController(mainController.stage,"Qualcosa è andato storto", "Il server si è spento","ERROR", ()->null).showAndWait());
             }
             this.serverStatus.setValue(false);
         } catch (ClassNotFoundException e) {
-            System.out.println("Errori nella lettura dei dati");
+            System.out.println("Errore class not found in lettura dati: " + e.getMessage());
         }
         finally {
             closeConnections();
@@ -107,6 +105,7 @@ public class ClientController {
         this.serverStatus.setValue(true);
     }
 
+    //definisco interfaccia per la funzione di callback per inviare il feedback al chiamante
     public interface ResponseFunction {
         void run(ServerResponse response);
     }
@@ -119,6 +118,7 @@ public class ClientController {
             outputStream.writeUTF(client.getEmailAddress());
             outputStream.writeObject(send);
             outputStream.flush();
+
             String feedback=inputStream.readUTF();
             ServerResponse res=new ServerResponse(feedback.contains("ERROR")?"ERROR": "OK", feedback);
             if(res.getStatus()=="OK"){
@@ -128,7 +128,6 @@ public class ClientController {
             }
             response.run(res);
 
-//            return feedback;
         } catch (IOException e) {
             this.serverStatus.setValue(false);
             response.run(new ServerResponse("ERROR","Errore, il server è spento"));
@@ -147,14 +146,14 @@ public class ClientController {
                 outputStream.writeUTF(client.getEmailAddress());
                 outputStream.writeObject(email);
                 outputStream.flush();
+
                 if (inputStream.readUTF().contains("ERROR")) {
-                    System.out.println("Errore nella modifica");
-                } else System.out.println("Modificato con successo!");
+                    response.run(new ServerResponse("ERROR","Errore, operazione non riuscita"));
+                }
             } catch (IOException e) {
                 response.run(new ServerResponse("ERROR","Errore, il server è spento"));
                 this.serverStatus.setValue(false);
             } finally {
-                System.out.println("Chiudo");
                 closeConnections();
             }
         });
@@ -172,11 +171,9 @@ public class ClientController {
                 ServerResponse res=new ServerResponse(feedback.contains("ERROR")? "ERROR":"OK", feedback);
                 response.run(res);
             }catch (IOException e){
-                System.out.println("Errore comunicazione: "+ e.getMessage());
                 this.serverStatus.setValue(false);
                 response.run(new ServerResponse("ERROR", "Errore di comunicazione"));
             }finally{
-                System.out.println("Chiudo");
                 closeConnections();
             }
         });
@@ -200,7 +197,6 @@ public class ClientController {
                 this.serverStatus.setValue(false);
                 response.run(new ServerResponse("ERROR", "Errore di comunicazione"));
             }finally{
-                System.out.println("Chiudo");
                 closeConnections();
             }
         });

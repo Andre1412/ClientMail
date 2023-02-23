@@ -95,6 +95,7 @@ public class ReadEmailController {
     }
 
     protected void showSelectedEmail(MouseEvent mouseEvent) {
+        System.out.println(listEmail.getSelectionModel().getSelectedItem()+ " selected: "+ selectedEmail);
         if(listEmail.getSelectionModel().getSelectedItem()!=null) {
             if (selectedEmail == null || !PaneListEmail.getItems().contains(borderTextEmail)) {
                 PaneListEmail.getItems().add(borderTextEmail);
@@ -103,14 +104,13 @@ public class ReadEmailController {
             }
             Email email = listEmail.getSelectionModel().getSelectedItem();
             if(email.toReadProperty()){
-                email.setToReadProperty(false);
                 model.setCurrentEmails();
                 listEmail.getSelectionModel().select(email);
                 clientController.setToRead(email,response-> {
                     if(response.getStatus()=="ERROR")
-                        Platform.runLater(() -> new AlertController(stage, "Qualcosa è andato storto", "Errore, il server è spento", "ERROR", mainController.writeEmail, () -> null).showAndWait());
-                    }
-                );
+                        Platform.runLater(() -> new AlertController(stage, "Qualcosa è andato storto", response.getMsg(), "ERROR", () -> null).showAndWait());
+                    else  email.setToReadProperty(false);
+                });
             }
             model.setNewEmails();
             selectedEmail = email;
@@ -133,6 +133,8 @@ public class ReadEmailController {
     }
     public void closePanel(){
         PaneListEmail.getItems().remove(borderTextEmail);
+        listEmail.getSelectionModel().select(null);
+        selectedEmail=null;
     }
     public void hideInteraction(boolean hide){
         this.btnInoltra.setVisible(!hide);
@@ -155,10 +157,9 @@ public class ReadEmailController {
     @FXML
     protected void onDeleteButtonClick(ActionEvent event) {
         if(model.getDeletedContent().contains(selectedEmail)) {
-            System.out.println("Permanente");
             clientController.permanentlyDelete(selectedEmail, response -> {
                 if (response.getStatus() == "ERROR") {
-                    Platform.runLater(() -> new AlertController(stage,"Qualcosa è andato storto", response.getMsg(), "ERROR", mainController.writeEmail, () -> null).showAndWait());
+                    Platform.runLater(() -> new AlertController(stage,"Qualcosa è andato storto", response.getMsg(), "ERROR", () -> null).showAndWait());
                 } else {
                     Platform.runLater(() -> {
                         model.permanentlyDelete(selectedEmail);
@@ -170,7 +171,7 @@ public class ReadEmailController {
         }else {
             clientController.deleteEmail(selectedEmail, response -> {
                 if (response.getStatus() == "ERROR") {
-                    Platform.runLater(() -> new AlertController(stage,"Qualcosa è andato storto", response.getMsg(), "ERROR", mainController.writeEmail, () -> null).showAndWait());
+                    Platform.runLater(() -> new AlertController(stage,"Qualcosa è andato storto", response.getMsg(), "ERROR", () -> null).showAndWait());
                 } else {
                     selectedEmail.setDeleted(true);
                     Platform.runLater(() -> {

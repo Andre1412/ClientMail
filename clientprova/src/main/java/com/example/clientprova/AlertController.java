@@ -3,11 +3,11 @@ package com.example.clientprova;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import javafx.stage.Window;
-import model.Client;
 
 import java.io.IOException;
 import java.util.concurrent.Callable;
@@ -22,12 +22,13 @@ public class AlertController extends Dialog<ButtonType> {
     public Button okBtn;
     @FXML
     public Button noBtn;
+    @FXML
+    public HBox buttons;
 
     double xOffset;
     double yOffset;
-    Client model;
 
-    public AlertController(Stage owner,String msg1, String msg2, String type, WriteEmailController writeEmailController, Callable<Void> f){
+    public AlertController(Stage owner,String msg1, String msg2, String type, Callable<Void> f){
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("alert.fxml"));
             loader.setController(this);
@@ -49,7 +50,6 @@ public class AlertController extends Dialog<ButtonType> {
                 getDialogPane().getScene().getWindow().setX(event.getScreenX() - xOffset);
                 getDialogPane().getScene().getWindow().setY(event.getScreenY() - yOffset);
             });
-            model = writeEmailController.model;
 
 
 
@@ -58,9 +58,10 @@ public class AlertController extends Dialog<ButtonType> {
                 close();
             });
 
-            if(type=="ERROR"){
+            if(type=="ERROR" || type=="INFO"){
                 noBtn.setText("OK");
-                okBtn.setVisible(false);
+                buttons.getChildren().remove(okBtn);
+                //okBtn.setVisible(false);
             }else{
                 noBtn.setText("Cancel");
                 okBtn.setText("Yes");

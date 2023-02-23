@@ -113,8 +113,6 @@ public class Client {
         if(inbox.size()>0) {
             Collections.sort(inbox, Collections.reverseOrder());
 
-            inbox.forEach((e)->System.out.println("Mail: "+ e + e.toReadProperty()));
-
             this.inboxContent.addAll(0, inbox);
             setNewEmails();
             if(view.getValue().equals("incoming"))
