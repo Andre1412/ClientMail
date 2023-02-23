@@ -3,7 +3,6 @@ package com.example.clientprova;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 
 import model.Client;
 import model.Email;
@@ -60,7 +59,7 @@ public class EmailCell extends ListCell<Email> {
                 if(newValue.toReadProperty()){
                     if(!getStyleClass().contains("toRead")) getStyleClass().add("toRead");
                 }else {
-                    if(getStyleClass().contains("toRead")) getStyleClass().remove("toRead");
+                    getStyleClass().remove("toRead");
                 }
                 dateLabel.setText(newValue.getDataSpedizione());
                 setContentDisplay(ContentDisplay.GRAPHIC_ONLY);

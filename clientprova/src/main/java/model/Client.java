@@ -58,7 +58,6 @@ public class Client {
         isWriting=false;
         newEmails=new SimpleIntegerProperty(0);
         view=new SimpleStringProperty("incoming");
-        //this.serverStatus= new SimpleBooleanProperty(false);
     }
 
     public void setView(String view) {
@@ -119,6 +118,7 @@ public class Client {
                 setCurrentEmails();
         }
     }
+
     //set sent to the list of emails passed as parameter
     public void setSentContent(ArrayList<Email> sent) {
         if(sent.size()>0) {

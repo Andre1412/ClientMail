@@ -1,11 +1,8 @@
 package com.example.clientprova;
 
 import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -16,16 +13,12 @@ import model.Email;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class WriteEmailController {
-
-    @FXML
-    public Label lblData;
     @FXML
     public Label lblsenderAccount;
     @FXML
@@ -40,12 +33,7 @@ public class WriteEmailController {
     MainController mainController;
     ClientController clientController;
 
-    /*
-    * action può assumere valore "forward", "reply", "replyall"
-    * textOrSubject prende il testo della mail se action=="forward", altrimenti oggetto della mail
-    * */
-    public void setMainController(MainController m, Client model, ClientController clientController){
-        this.mainController = m;
+    public void setMainController( Client model, ClientController clientController, Stage stage){
         this.model = model;
         this.clientController = clientController;
         lblsenderAccount.textProperty().bind(model.emailAddressProperty());
@@ -97,7 +85,7 @@ public class WriteEmailController {
 
                 if(errorReceiver==""){
                     lblTo.setStyle("-fx-border-color: none;");
-                        Email send = new Email(uniqueID, lblData.getText(), lblsenderAccount.getText(), receivers, lblSubject.getText(), txtEmail.getText(), true,false);
+                        Email send = new Email(uniqueID, strDate, lblsenderAccount.getText(), receivers, lblSubject.getText(), txtEmail.getText(), true,false);
                         clientController.sendEmail(send,response->{
                             if(response.getStatus()=="OK"){
                                 Platform.runLater(()-> {

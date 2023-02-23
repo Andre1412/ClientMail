@@ -54,7 +54,7 @@ public class MainController {
                     throw new IllegalStateException("Model can only be initialized once");
                 model = new Client(account);
 
-                this.clientController = new ClientController(model, this);
+                this.clientController = new ClientController(model);
 
                 FXMLLoader buttonTabLoader = new FXMLLoader(getClass().getResource("buttonTab.fxml"));
                 root.setLeft(buttonTabLoader.load());
@@ -65,7 +65,7 @@ public class MainController {
                 readEmailNode = readEmailLoader.load();
                 root.setCenter(readEmailNode);
                 this.readEmail = readEmailLoader.getController();
-                readEmail.setMainController(this, model, clientController, stage);
+                readEmail.setMainController(this, model, clientController);
 
                 clientController.communicate("localhost", 8085);
 
@@ -87,11 +87,11 @@ public class MainController {
                 System.exit(1);
             }
         }else {
-                txtAccount.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-                Label error=new Label();
-                error.setText("Inserire email valida");
-                error.setId("errorLabel");
-                root.setBottom(error);
+            txtAccount.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            Label error=new Label();
+            error.setText("Inserire email valida");
+            error.setId("errorLabel");
+            root.setBottom(error);
         }
     }
 
@@ -121,7 +121,7 @@ public class MainController {
     public void writeEmail(String action, Email mail){
         showWriteEmail();
         writeEmail.viewWriteEmail(action, mail);
-        if(model.getView()!="write")model.setView("write");
+        if(!model.getView().equals("write"))model.setView("write");
     }
 
 

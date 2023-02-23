@@ -5,8 +5,8 @@ module com.example.clientprova {
 
     opens com.example.clientprova to javafx.fxml;
     exports com.example.clientprova;
-
-
+    exports model;
+    opens model to javafx.fxml;
 
 
 }

@@ -12,6 +12,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="clientprova" target="15" />
+      <module name="lib" target="15" />
       <module name="servermail" target="15" />
     </bytecodeTargetLevel>
   </component>

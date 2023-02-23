@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 
 import model.Client;
 import model.Email;
+import model.ServerResponse;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -29,7 +30,7 @@ public class ClientController {
     ObjectOutputStream outputStream = null;
     ObjectInputStream inputStream = null;
 
-    public ClientController(Client client, MainController mainController) {
+    public ClientController(Client client) {
         threadPool = Executors.newFixedThreadPool(10);
         this.client = client;
         this.serverStatus = new SimpleBooleanProperty(false);
@@ -39,7 +40,7 @@ public class ClientController {
     public void communicate(String host, int port){
         scheduler.scheduleAtFixedRate(() ->{
             tryCommunication(host, port);
-        },0, 5, TimeUnit.SECONDS);
+        },0, 3, TimeUnit.SECONDS);
     }
 
 
@@ -121,7 +122,7 @@ public class ClientController {
 
             String feedback=inputStream.readUTF();
             ServerResponse res=new ServerResponse(feedback.contains("ERROR")?"ERROR": "OK", feedback);
-            if(res.getStatus()=="OK"){
+            if(res.getStatus().equals("OK")){
                 ArrayList<Email> sendArray=new ArrayList<>();
                 sendArray.add(send);
                 client.setSentContent(sendArray);
@@ -183,7 +184,6 @@ public class ClientController {
         threadPool.execute(()->{
             try{
                 this.connectToServer("localhost", 8085);
-                //this.serverStatus.setValue(true);
                 outputStream.writeUTF("delete");
                 outputStream.writeUTF(client.getEmailAddress());
                 outputStream.writeObject(new Email(email.getID(),email.getDataSpedizione(),email.getSender(),email.getReceivers(),email.getSubject(),email.getText(),email.toReadProperty(),true));

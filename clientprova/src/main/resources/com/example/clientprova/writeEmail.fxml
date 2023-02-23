@@ -67,7 +67,6 @@
                             <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                         </rowConstraints>
                         <children>
-                            <Label fx:id="lblData" alignment="TOP_RIGHT" contentDisplay="RIGHT" text="Data" />
                             <HBox alignment="TOP_RIGHT" GridPane.columnIndex="1">
                                 <children>
                                     <Button fx:id="btnSend" defaultButton="true" mnemonicParsing="false" onAction="#sendEmail">

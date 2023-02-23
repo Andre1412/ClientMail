@@ -36,7 +36,6 @@ public class AlertController extends Dialog<ButtonType> {
             DialogPane dialogPane = loader.load();
             initOwner(owner);
             initModality(Modality.WINDOW_MODAL);
-            //initStyle(StageStyle.TRANSPARENT);
 
 
             getDialogPane().getScene().setOnMousePressed(event -> {
@@ -58,7 +57,7 @@ public class AlertController extends Dialog<ButtonType> {
                 close();
             });
 
-            if(type=="ERROR" || type=="INFO"){
+            if(type.equals("ERROR") || type.equals("INFO")){
                 noBtn.setText("OK");
                 buttons.getChildren().remove(okBtn);
                 //okBtn.setVisible(false);

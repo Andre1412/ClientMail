@@ -1,4 +1,4 @@
-package com.example.clientprova;
+package model;
 
 public class ServerResponse{
     private String msg;
@@ -9,12 +9,6 @@ public class ServerResponse{
         this.status=status;
     }
 
-    public void setMsg(String msg){
-        this.msg=msg;
-    }
-    public void setStatus(String st){
-        this.status=st;
-    }
     public String getMsg(){
         return msg;
     }

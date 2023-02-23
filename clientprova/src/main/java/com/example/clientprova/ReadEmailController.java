@@ -12,7 +12,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.stage.Stage;
 import model.Client;
 import model.Email;
 
@@ -59,9 +58,6 @@ public class ReadEmailController {
 
     private Client model;
     private Email selectedEmail;
-    Stage stage;
-
-    private int cellHeight=70;
 
 
     public void setMainController(MainController m, Client model, ClientController clientController, Stage stage){
@@ -99,8 +95,7 @@ public class ReadEmailController {
         if(listEmail.getSelectionModel().getSelectedItem()!=null) {
             if (selectedEmail == null || !PaneListEmail.getItems().contains(borderTextEmail)) {
                 PaneListEmail.getItems().add(borderTextEmail);
-                if(model.getView()=="garbage")hideInteraction(true);
-                else hideInteraction(false);
+                hideInteraction(model.getView().equals("garbage"));
             }
             Email email = listEmail.getSelectionModel().getSelectedItem();
             if(email.toReadProperty()){
@@ -143,7 +138,7 @@ public class ReadEmailController {
     }
 
     public void changeView(String newView){
-        if(newView=="incoming" || newView=="sent" || newView=="garbage"){
+        if(newView.equals("incoming") || newView.equals("sent") || newView.equals("garbage")){
             if(!PaneListEmail.getItems().contains(borderListEmail)){
                 PaneListEmail.getItems().add(borderListEmail);
             }
